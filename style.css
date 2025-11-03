@@ -1,0 +1,124 @@
+/* style.css */
+:root {
+    /* Definirea culorilor principale pentru un aspect coerent */
+    --primary-color: #007bff; /* Albastru pentru antet */
+    --secondary-color: #28a745; /* Verde pentru butonul principal */
+    --background-color: #f4f7f9; /* Fundal ușor gri */
+    --text-color: #333; /* Culoarea textului */
+    --card-background: #ffffff; /* Fundalul secțiunilor (alb) */
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Umbre discrete */
+}
+
+/* Reset și Layout de Bază */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Asigură că Footer-ul este jos */
+}
+
+/* Antetul Pagină (Header) */
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+/* Conținutul Principal (Main) */
+main {
+    max-width: 900px;
+    width: 90%;
+    margin: 30px auto;
+    padding: 20px;
+    flex-grow: 1; /* Permite secțiunii să ocupe spațiul disponibil */
+}
+
+/* Stiluri Formular și Casetă de Text */
+#analiza-form {
+    background: var(--card-background);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+}
+
+#proces-input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box; /* Include padding și border în lățimea totală */
+    font-size: 16px;
+    resize: vertical; /* Permite redimensionarea pe verticală */
+}
+
+/* Stil Buton Principal */
+button {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+/* Stiluri Rezultate și Carduri (Output API) */
+#rezultate {
+    background: var(--card-background);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+.card {
+    border: 1px solid #eee;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.prompt-code {
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    color: #495057;
+    padding: 10px;
+    border-radius: 4px;
+    font-family: monospace; /* Font pentru cod */
+    overflow-x: auto;
+}
+
+.error {
+    color: crimson;
+}
+
+.copy-btn {
+    background-color: #ffc107;
+    color: var(--text-color);
+    margin-top: 10px;
+}
+
+.copy-btn:hover {
+    background-color: #e0a800;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 15px;
+    margin-top: 20px;
+    color: #6c757d;
+}
