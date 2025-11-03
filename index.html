@@ -3,29 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Process Optimizer 🚀</title>
+    <title>Process Optimizer ??</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>Process Optimizer AI ✨</h1>
-        <p>Analizează un proces pentru a găsi oportunități de automatizare.</p>
+        <h1>Process Optimizer AI ?</h1>
+        <p>Analizeaza un proces pentru a gasi oportunita?i de automatizare.</p>
     </header>
 
     <main>
         <form id="analiza-form">
-            <textarea id="proces-input" rows="10" placeholder="Descrie pas cu pas procesul pe care dorești să-l optimizezi..."></textarea>
-            <button type="submit">Analizează Procesul</button>
+            <select id="domeniu-select" style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 6px; font-size: 16px;">
+                <option value="">-- Alege Domeniul Procesului --</option>
+                <option value="IT & Dezvoltare">IT & Dezvoltare</option>
+                <option value="Resurse Umane (HR)">Resurse Umane (HR)</option>
+                <option value="Financiar & Contabilitate">Financiar & Contabilitate</option>
+                <option value="Logistica & Supply Chain">Logistica & Supply Chain</option>
+                <option value="Servicii Clien?i">Servicii Clien?i</option>
+                <option value="Altele">Altele</option>
+            </select>
+            
+            <textarea id="proces-input" rows="10" placeholder="Descrie pas cu pas procesul pe care dore?ti sa-l optimizezi (Ex: 1. Primesc un email. 2. Copiez datele �n Excel...)."></textarea>
+            <button type="submit">Analizeaza Procesul</button>
         </form>
 
         <section id="rezultate">
-            <h2>Rezultatele analizei vor apărea aici.</h2>
+            <h2>Rezultatele analizei vor aparea aici.</h2>
         </section>
     </main>
 
     <footer>
         <p>&copy; 2025 Process Optimization App</p>
     </footer>
+
     <script src="script.js"></script>
 </body>
 </html>
