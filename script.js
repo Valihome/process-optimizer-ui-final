@@ -1,6 +1,6 @@
 // script.js
 // ATENTIE: Inlocuieste cu URL-ul tau real (https://process-optimizer-api.onrender.com) daca este diferit
-const API_BASE_URL = 'https://process-optimizer-api.onrender.com';
+const API_BASE_URL = 'https://process-optimizer-ui-final.onrender.com';
 
 // Elementele cheie
 const loadingAnimation = document.getElementById('loading-animation');
