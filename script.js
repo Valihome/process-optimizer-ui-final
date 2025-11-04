@@ -6,10 +6,22 @@ const loadingAnimation = document.getElementById('loading-animation');
 const rezultateContainer = document.getElementById('rezultate');
 const introScreen = document.getElementById('intro-screen');
 const appContent = document.getElementById('app-content');
+const analizaForm = document.getElementById('analiza-form');
+const procesInput = document.getElementById('proces-input');
+
+// Variabila globala pentru a stoca textul procesului introdus
+let currentProcessText = '';
+
+// Functie utilitara pentru a repara formatarea Markdown (elimina ** si le inlocuieste cu <strong>)
+function formatMarkdown(text) {
+    if (typeof text !== 'string') return text;
+    // Inlocuieste **text** cu <strong>text</strong>
+    return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------------------------------
-    // I. LOGICA INTRODUCTIVA SI TRANZITIE (NEW)
+    // I. LOGICA INTRODUCTIVA SI TRANZITIE
     // ----------------------------------------------------
 
     // 1. Initializare Animatii Text Intro
@@ -25,37 +37,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const introObserver = new IntersectionObserver(observerCallback, { threshold: 0.1 });
 
-        // Aplica observatorul pe elementele animate din intro
         document.querySelectorAll('.animate-intro-h1, .animate-intro-p').forEach(element => {
             introObserver.observe(element);
         });
     }
     setupIntroAnimation(); 
 
-    // 2. Gestionarea Butonului de Start
+    // 2. Gestionarea Butonului de Start (Tranzitie Intro -> Aplicatie)
     document.getElementById('start-app-button').addEventListener('click', () => {
-        // Initiaza fade-out pe ecranul intro
         introScreen.style.opacity = '0';
         
-        // Asteapta ca animatia de fade-out sa se termine (1000ms din CSS)
         setTimeout(() => {
             introScreen.style.display = 'none';
-
-            // Afiseaza continutul aplicatiei
             appContent.style.display = 'block';
-            
-            // Fortam reflow inainte de a aplica fade-in
             appContent.offsetHeight; 
             appContent.style.opacity = '1';
 
-            // Porneste animatiile secventiale ale formularului
             setupAppContentAnimation(); 
         }, 1000); 
     });
 
 
     // ----------------------------------------------------
-    // II. LOGICA APLICATIEI SI ANIMATII (UPDATE)
+    // II. LOGICA APLICATIEI SI ANIMATII
     // ----------------------------------------------------
 
     // 1. Functie pentru animatiile formularului/headerului
@@ -71,19 +75,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const appObserver = new IntersectionObserver(observerCallback, { threshold: 0.1 });
 
-        // Aplica observatorul pe elementele cu clasa .animate-appear din aplicatie
         document.querySelectorAll('#app-content .animate-appear').forEach(element => {
             appObserver.observe(element);
         });
     }
 
     // 2. Initializare Formular si Event Listener
-    const analizaForm = document.getElementById('analiza-form');
     analizaForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
         const domeniuSelectat = document.getElementById('domeniu-select').value;
-        const procesText = document.getElementById('proces-input').value;
+        const procesText = procesInput.value;
 
         if (domeniuSelectat.trim() === "") {
             alert("Te rog alege un Domeniu pentru a incepe analiza.");
@@ -94,6 +96,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         
+        // NOU: Stocam textul procesului inainte de analiza
+        currentProcessText = procesText;
+
         trimitePentruAnaliza(domeniuSelectat, procesText);
     });
 
@@ -107,6 +112,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Eroare la copiere:', err);
             });
         }
+        
+        // NOU: Gestionarea Butonului de Repornire
+        if (event.target.id === 'reset-button') {
+            rezultateContainer.classList.remove('is-visible');
+            setTimeout(() => {
+                rezultateContainer.style.display = 'none';
+                analizaForm.style.display = 'block'; // Arata formularul
+                analizaForm.classList.add('is-visible'); // Animația de apariție a formularului
+                procesInput.value = ''; // Golește input-ul
+                window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll la inceput
+            }, 600);
+        }
     });
 
 });
@@ -115,7 +132,10 @@ document.addEventListener('DOMContentLoaded', () => {
  * Trimite descrierea procesului și domeniul către API-ul Backend.
  */
 function trimitePentruAnaliza(domeniu, procesText) {
-    // Ascunde rezultatele vechi si afiseaza animatia de loading
+    // Ascunde formularul si afiseaza animatia de loading
+    analizaForm.classList.remove('is-visible');
+    analizaForm.style.display = 'none';
+
     rezultateContainer.style.display = 'none';
     rezultateContainer.classList.remove('is-visible');
     rezultateContainer.innerHTML = ''; 
@@ -166,33 +186,38 @@ function afiseazaRezultatele(data) {
         loadingAnimation.style.display = 'none';
         
         if (data.error) {
-            rezultateContainer.innerHTML = `<h2 class="error" style="text-align: center; margin-top: 50px;">Eroare de analiza:</h2><p style="text-align: center; color: var(--secondary-color);">${data.error}</p>`;
+            rezultateContainer.innerHTML = `<h2 class="error" style="text-align: center; margin-top: 50px;">Eroare de analiza:</h2><p style="text-align: center; color: var(--secondary-color);">${data.error}</p><button id="reset-button">Analizează un alt Proces</button>`;
             rezultateContainer.style.display = 'block';
             rezultateContainer.classList.add('is-visible');
             return;
         }
 
+        // NOU: Introducem containerul cu textul procesului analizat
         let htmlContent = `
-            <h2 class="animate-appear delay-1">Analiza Generala</h2>
-            <p class="animate-appear delay-2" style="font-style: italic; border-left: 3px solid var(--primary-color); padding-left: 10px;">${data.analiza_generala}</p>
-            <hr style="margin-top: 40px; border-color: var(--border-color);" class="animate-appear delay-3">
-            <h3 class="animate-appear delay-4" style="color: var(--text-color);">Oportunitati de Optimizare</h3>
+            <div id="proces-analizat-box" class="animate-appear delay-1">
+                <h3>Procesul Analizat</h3>
+                <p style="white-space: pre-wrap; color: var(--text-color);">${currentProcessText}</p>
+            </div>
+
+            <h2 class="animate-appear delay-2">Analiza Generală</h2>
+            <p class="animate-appear delay-3" style="font-style: italic; border-left: 3px solid var(--primary-color); padding-left: 10px;">${formatMarkdown(data.analiza_generala)}</p>
+            <hr style="margin-top: 40px; border-color: var(--border-color);" class="animate-appear delay-4">
+            <h3 class="animate-appear delay-5" style="color: var(--text-color);">Oportunități de Optimizare</h3>
         `;
+        
+        let baseDelay = 6; // Intarziere de baza pentru carduri
         
         if (data.oportunitati_optimizare && data.oportunitati_optimizare.length > 0) {
             data.oportunitati_optimizare.forEach((oportunitate, index) => {
                 const safePrompt = oportunitate.prompt_cod_relevant.replace(/"/g, '&quot;');
                 
-                // Fiecare card apare cu o intarziere suplimentara (index * 0.1s + baza)
-                const cardDelay = 5 + index; 
-                
                 htmlContent += `
-                    <div class="card animate-appear delay-${cardDelay}"> 
-                        <h4>${index + 1}. Pas original: **${oportunitate.pas_proces_original}**</h4>
+                    <div class="card animate-appear delay-${baseDelay + index}"> 
+                        <h4>${index + 1}. Pas original: ${formatMarkdown(oportunitate.pas_proces_original)}</h4>
                         <ul>
-                            <li><strong>Ineficienta:</strong> ${oportunitate.tip_ineficienta}</li>
-                            <li><strong>Impact Estim.:</strong> ${oportunitate.impact_estimat}</li>
-                            <li><strong>Solutie Recomandata:</strong> ${oportunitate.solutie_recomandata} (Instrument: <strong>${oportunitate.instrument_sugerat}</strong>)</li>
+                            <li><strong>Ineficienta:</strong> ${formatMarkdown(oportunitate.tip_ineficienta)}</li>
+                            <li><strong>Impact Estim.:</strong> ${formatMarkdown(oportunitate.impact_estimat)}</li>
+                            <li><strong>Solutie Recomandata:</strong> ${formatMarkdown(oportunitate.solutie_recomandata)} (Instrument: <strong>${formatMarkdown(oportunitate.instrument_sugerat)}</strong>)</li>
                         </ul>
                         
                         <h5 style="margin-top: 20px; color: var(--highlight-color);">Cod/Prompt Sugerat</h5>
@@ -203,14 +228,18 @@ function afiseazaRezultatele(data) {
                 `;
             });
         } else {
-            htmlContent += '<p class="animate-appear delay-5" style="text-align: center; color: var(--secondary-color);">Nu au fost identificate oportunitati clare de optimizare.</p>';
+            htmlContent += '<p class="animate-appear delay-6" style="text-align: center; color: var(--secondary-color);">Nu au fost identificate oportunitati clare de optimizare.</p>';
         }
 
-        const baseDelay = 5 + (data.oportunitati_optimizare ? data.oportunitati_optimizare.length : 0);
+        const finalDelay = baseDelay + (data.oportunitati_optimizare ? data.oportunitati_optimizare.length : 0);
         htmlContent += `
-            <hr style="margin-top: 40px; border-color: var(--border-color);" class="animate-appear delay-${baseDelay + 1}">
-            <h3 class="animate-appear delay-${baseDelay + 2}" style="color: var(--secondary-color);">Pasi Urmatori</h3>
-            <p class="animate-appear delay-${baseDelay + 3}">${data.next_steps}</p>
+            <hr style="margin-top: 40px; border-color: var(--border-color);" class="animate-appear delay-${finalDelay + 1}">
+            <h3 class="animate-appear delay-${finalDelay + 2}" style="color: var(--secondary-color);">Pasi Urmatori</h3>
+            <p class="animate-appear delay-${finalDelay + 3}">${formatMarkdown(data.next_steps)}</p>
+            
+            <div style="text-align: center;" class="animate-appear delay-${finalDelay + 4}">
+                <button id="reset-button">Analizează un alt Proces</button>
+            </div>
         `;
 
         rezultateContainer.innerHTML = htmlContent;
