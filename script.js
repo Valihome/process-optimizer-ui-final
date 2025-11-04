@@ -4,16 +4,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const analysisContent = document.getElementById('analysis-content');
     const analizaForm = document.getElementById('analiza-form');
     const rezultateContainer = document.getElementById('rezultate');
+    const mainHeader = document.getElementById('main-header'); // Referinta la antet
 
     // Functie pentru a trece de la Pagina de Bun Venit la Pagina de Analiza
     startBtn.addEventListener('click', () => {
         introSection.style.display = 'none'; // Ascunde pagina de bun venit
         analysisContent.style.display = 'block'; // Arata pagina de analiza (formular + disclaimer)
+        
+        mainHeader.style.display = 'none'; // Ascunde antetul
+        
         window.scrollTo(0, 0); // Scrolleaza in partea de sus a paginii
     });
 
 
-    // Logica de Trimite Formularul (Pastrata de la versiunile anterioare)
+    // Logica de Trimite Formularul
     analizaForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
@@ -26,12 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // 1. Pregateste ecranul pentru rezultate
         trimitePentruAnaliza(domeniu, procesText);
     });
 
     function trimitePentruAnaliza(domeniu, procesText) {
-        // Facem containerul de rezultate vizibil
         rezultateContainer.style.display = 'block'; 
         rezultateContainer.innerHTML = '<h2>Se analizeaza procesul... Va rugam asteptati.</h2>'; 
 
@@ -46,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(response => {
             if (!response.ok) {
-                // Dacă răspunsul nu este OK (ex: 500 Server Error)
                 return response.json().then(errorData => {
                     throw new Error(errorData.error || `Eroare HTTP: ${response.status}`);
                 });
@@ -54,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(data => {
-            // 2. Afiseaza rezultatele
             afiseazaRezultatele(data);
         })
         .catch(error => {
