@@ -5,16 +5,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const analizaForm = document.getElementById('analiza-form');
     const rezultateContainer = document.getElementById('rezultate');
     const mainHeader = document.getElementById('main-header'); 
-    const submitBtn = document.getElementById('submit-analysis-btn'); // NOU: Referință la butonul de trimitere
+    const submitBtn = document.getElementById('submit-analysis-btn'); 
 
     // Functie pentru a trece de la Pagina de Bun Venit la Pagina de Analiza
     startBtn.addEventListener('click', () => {
-        introSection.style.display = 'none'; // Ascunde pagina de bun venit
-        analysisContent.style.display = 'block'; // Arata pagina de analiza (formular + disclaimer)
-        
-        mainHeader.style.display = 'none'; // Ascunde antetul
-        
-        window.scrollTo(0, 0); // Scrolleaza in partea de sus a paginii
+        introSection.style.display = 'none'; 
+        analysisContent.style.display = 'block'; 
+        mainHeader.style.display = 'none'; 
+        window.scrollTo(0, 0); 
     });
 
 
@@ -41,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         rezultateContainer.style.display = 'block'; 
         rezultateContainer.innerHTML = '<h2>Se analizeaza procesul... Va rugam asteptati.</h2>'; 
 
-        const apiUrl = 'https://process-optimizer-api.onrender.com/api/analyze'; // URL-ul tau de Backend pe Render
+        const apiUrl = 'https://process-optimizer-api.onrender.com/api/analyze'; 
 
         fetch(apiUrl, {
             method: 'POST',
@@ -51,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
             body: JSON.stringify({ domeniu: domeniu, description: procesText }),
         })
         .then(response => {
-            // Re-afișează butonul în cazul oricărui răspuns (succes sau eroare)
             submitBtn.style.display = 'block'; 
 
             if (!response.ok) {
@@ -78,34 +75,79 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let html = '<h2>Analiza Procesului Dvs.</h2>';
         
-        // 1. Analiza Generala
-        html += `<div class="card">
+        // 1. Analiza Generala (Rămâne vizibilă)
+        html += `<div class="card general-card">
                     <h3>Rezumat General</h3>
                     <p>${data.analiza_generala}</p>
                  </div>`;
 
-        // 2. Oportunitati de Optimizare
+        // 2. Oportunitati de Optimizare (Acordeon)
         html += '<h3>Oportunitati de Automatizare si Eficientizare</h3>';
         
         data.oportunitati_optimizare.forEach((oportunitate, index) => {
-            html += `<div class="card">
-                        <h4>Oportunitatea #${index + 1}: ${oportunitate.solutie_recomandata}</h4>
-                        <ul>
-                            <li><strong>Pasul Original:</strong> ${oportunitate.pas_proces_original}</li>
-                            <li><strong>Tip Ineficienta:</strong> ${oportunitate.tip_ineficienta}</li>
-                            <li><strong>Impact Estim.:</strong> ${oportunitate.impact_estimat}</li>
-                            <li><strong>Instrument Sugerat:</strong> ${oportunitate.instrument_sugerat}</li>
-                            <li><strong>Cod/Prompt Relevant:</strong> <textarea readonly class="prompt-code">${oportunitate.prompt_cod_relevant}</textarea></li>
-                        </ul>
+            const accordionId = `accordion-${index}`;
+            
+            // Titlul acordionului (vizibil, clickabil)
+            html += `<div class="accordion-item">
+                        <button class="accordion-header" id="header-${accordionId}">
+                            Oportunitatea #${index + 1}: ${oportunitate.solutie_recomandata}
+                            <span class="accordion-icon">+</span>
+                        </button>
+
+                        <div class="accordion-content" id="${accordionId}">
+                            <ul>
+                                <li><strong>Pasul Original:</strong> ${oportunitate.pas_proces_original}</li>
+                                <li><strong>Tip Ineficienta:</strong> ${oportunitate.tip_ineficienta}</li>
+                                <li><strong>Impact Estim.:</strong> ${oportunitate.impact_estimat}</li>
+                                <li><strong>Instrument Sugerat:</strong> ${oportunitate.instrument_sugerat}</li>
+                            </ul>
+                            <h4>Snippet de Cod/Prompt</h4>
+                            <textarea readonly class="prompt-code">${oportunitate.prompt_cod_relevant}</textarea>
+                        </div>
                     </div>`;
         });
 
-        // 3. Next Steps
-        html += `<div class="card">
+        // 3. Next Steps (Rămâne vizibil)
+        html += `<div class="card general-card">
                     <h3>Următorii Pași</h3>
                     <p>${data.next_steps}</p>
                  </div>`;
 
         rezultateContainer.innerHTML = html;
+        
+        // Adaugă event listener după ce conținutul este injectat în DOM
+        setupAccordionListeners();
+    }
+
+    function setupAccordionListeners() {
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = document.getElementById(header.id.replace('header-', ''));
+                const icon = header.querySelector('.accordion-icon');
+                
+                // Toggle clasa "active" pe header
+                header.classList.toggle('active');
+
+                if (content.style.maxHeight) {
+                    // Dacă este deschis, închide-l
+                    content.style.maxHeight = null;
+                    icon.textContent = '+';
+                } else {
+                    // Dacă este închis, deschide-l
+                    // Închide toate celelalte acordeoane
+                    document.querySelectorAll('.accordion-content').forEach(otherContent => {
+                         if (otherContent !== content) {
+                             otherContent.style.maxHeight = null;
+                             document.getElementById(`header-${otherContent.id}`).classList.remove('active');
+                             document.getElementById(`header-${otherContent.id}`).querySelector('.accordion-icon').textContent = '+';
+                         }
+                    });
+                    
+                    // Setează înălțimea la înălțimea sa reală + o mică marjă
+                    content.style.maxHeight = content.scrollHeight + 30 + "px";
+                    icon.textContent = '—';
+                }
+            });
+        });
     }
 });
