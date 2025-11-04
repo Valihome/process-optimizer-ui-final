@@ -262,3 +262,37 @@ footer {
     opacity: 1;
     transform: translateY(0);
 }
+/* --- Stiluri pentru Animatia de Morphing a Creierului (Loading) --- */
+
+#loading-animation {
+    background: var(--card-background);
+    padding: 45px;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--primary-color); /* Iese in evidenta in timpul analizei */
+    text-align: center;
+    margin-bottom: 50px;
+    /* Tranziție pentru efectul de morph/schimbare (important!) */
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.morphing-brain {
+    font-size: 5em;
+    display: inline-block;
+    /* Aplica Animatia CSS */
+    animation: morph-brain 3s infinite ease-in-out;
+    color: var(--primary-color);
+}
+
+@keyframes morph-brain {
+    0% { transform: scale(1) rotateY(0deg); opacity: 1; }
+    50% { transform: scale(1.1) rotateY(180deg); opacity: 0.8; }
+    100% { transform: scale(1) rotateY(360deg); opacity: 1; }
+}
+
+#loading-animation p {
+    color: var(--secondary-color);
+    margin-top: 15px;
+    font-weight: 500;
+    font-size: 1.1em;
+}
