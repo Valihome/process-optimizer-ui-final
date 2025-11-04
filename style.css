@@ -1,6 +1,6 @@
 /* =========================================
-   1. Variabile CSS si Reset de Baza
-   ========================================= */
+    1. Variabile CSS si Reset de Baza
+    ========================================= */
 :root {
     --primary-color: #4CAF50; /* Verde intens */
     --secondary-color: #81C784; /* Verde deschis */
@@ -39,8 +39,8 @@ html, body {
 }
 
 /* =========================================
-   2. Stiluri Generale Aplicatie
-   ========================================= */
+    2. Stiluri Generale Aplicatie
+    ========================================= */
 
 header {
     background-color: var(--surface-color);
@@ -145,8 +145,8 @@ button[type="submit"]:hover {
 }
 
 /* =========================================
-   3. Stiluri Ecran Introductiv
-   ========================================= */
+    3. Stiluri Ecran Introductiv
+    ========================================= */
 
 #intro-screen {
     max-width: 900px;
@@ -216,8 +216,8 @@ button[type="submit"]:hover {
 }
 
 /* =========================================
-   4. Stiluri Rezultate si Carduri
-   ========================================= */
+    4. Stiluri Rezultate si Carduri
+    ========================================= */
 
 #rezultate {
     padding: 30px 0;
@@ -329,8 +329,8 @@ button[type="submit"]:hover {
 /* delay-1, delay-2, etc. ... */
 
 /* =========================================
-   5. Loading State
-   ========================================= */
+    5. Loading State
+    ========================================= */
 
 #loading-animation {
     display: flex;
@@ -364,8 +364,8 @@ button[type="submit"]:hover {
 }
 
 /* =========================================
-   6. Responsivitate (Fixează Problemele de Zoom/Mobil)
-   ========================================= */
+    6. Responsivitate (Fixează Problemele de Zoom/Mobil)
+    ========================================= */
 
 @media (max-width: 950px) {
     /* Ajustari generale pentru tableta/mobil mare */
@@ -416,4 +416,16 @@ button[type="submit"]:hover {
     .intro-text-container p {
         padding: 0 5px;
     }
+}
+
+/* =========================================
+    7. Ajustări Finale (Feedback Vizual Buton)
+    ========================================= */
+
+#analiza-form button[type="submit"][disabled] {
+    cursor: not-allowed;
+    background-color: #555;
+    /* Reducem putin luminozitatea pentru a arata ca este inactiv */
+    opacity: 0.7; 
+    transition: all 0.2s;
 }
