@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const rezultateSection = document.getElementById('rezultate');
     const loadingAnimation = document.getElementById('loading-animation');
     
-    // URL-ul tău API Backend (Schimbă-l dacă URL-ul tău Render este diferit)
+    // URL-ul tău API Backend (Asigură-te că URL-ul Render este corect)
     const API_URL = 'https://process-optimizer-api.onrender.com/api/analyze'; 
 
     // ----------------------------------------------------
@@ -24,12 +24,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Functie pentru a trece la aplicatie
     startButton.addEventListener('click', () => {
-        introScreen.style.display = 'none';
-        appContent.style.display = 'flex';
+        introScreen.style.display = 'none'; // Ascunde ecranul de introducere
+        
+        // Face containerul aplicatiei vizibil (era "display: none" in HTML)
+        appContent.style.display = 'flex'; 
         
         // Animatia de aparitie a formularului
         setTimeout(() => {
+            // Face app-content opac (era opacity: 0 in HTML)
+            appContent.style.opacity = 1; // <--- CORECȚIA CRUCIALĂ
+            
+            // Adauga clasa pentru animatia elementelor din <main>
             document.querySelector('main').classList.add('initial-app-elements');
+            
+            // Arata formularul
             analizaForm.classList.add('is-visible');
         }, 50);
     });
@@ -60,8 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     async function analizeazaProcesul(domeniu, description) {
+        let response = null; // Declarat in exterior pentru a fi disponibil in catch
+
         try {
-            const response = await fetch(API_URL, {
+            response = await fetch(API_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -98,15 +108,17 @@ document.addEventListener('DOMContentLoaded', () => {
             let errorDetails = error.message;
 
             // Logica îmbunătățită de tratare a erorilor de conexiune și JSON
-            if (error.response && typeof error.response.text === 'function') {
+            // Folosim obiectul 'response' pentru a incerca citirea textului
+            if (response && typeof response.text === 'function') {
                 try {
-                    errorDetails = await error.response.text();
+                    errorDetails = await response.text();
                     
                     const jsonErr = JSON.parse(errorDetails);
                     if (jsonErr.error) {
                         errorDetails = jsonErr.error;
                     }
                 } catch (e) {
+                    // Daca era eroarea clasica de JSON invalid, afisam un mesaj specific de Timeout
                     if (error.message.includes('Unexpected end of JSON input')) {
                         errorDetails = 'Serverul API a răspuns incomplet (Timeout sau eroare internă). Verificați log-urile Backend-ului.';
                     } else {
@@ -114,15 +126,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             } else if (error.message.includes('Failed to fetch')) {
+                // Eroare de retea (CORS, server nefuncțional, URL greșit)
                 errorDetails = 'Eroare de rețea. Verificați că URL-ul API Backend este corect și că serverul rulează pe Render (status: Available).';
             }
 
             alert(`Eroare de conexiune! Detalii: ${errorDetails}`);
             console.error('Fetch Error:', error);
             
-            analizaForm.style.opacity = 1;
+            analizaForm.style.opacity = 1; // Asigura-te ca formularul este vizibil
         }
-    } // <-- Paranteza lipsa 1: Incheie functia analizeazaProcesul
+    }
 
     // ----------------------------------------------------
     // 3. Functia de Afisare a Rezultatelor
@@ -207,5 +220,4 @@ document.addEventListener('DOMContentLoaded', () => {
             button.textContent = 'Copiază';
         }, 2000);
     };
-
-}); // <-- Paranteza lipsa 2: Incheie document.addEventListener('DOMContentLoaded', ...)
+});
