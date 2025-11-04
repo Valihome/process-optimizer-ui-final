@@ -14,7 +14,6 @@ const header = document.querySelector('#app-content header');
 let currentProcessText = '';
 
 // Functie utilitara pentru a repara formatarea Markdown (elimina ** si le inlocuieste cu <strong>)
-// Am modificat regex-ul sa fie mai robust
 function formatMarkdown(text) {
     if (typeof text !== 'string') return text;
     // Inlocuieste **text** cu <strong>text</strong> (ignora spatiile albe din jurul continutului)
@@ -55,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             appContent.offsetHeight; 
             appContent.style.opacity = '1';
 
-            // NOU: Fortam aparitia headerului si formularului
+            // Fortam aparitia headerului si formularului
             setupAppContentAnimation(); 
         }, 1000); 
     });
@@ -159,7 +158,10 @@ function trimitePentruAnaliza(domeniu, procesText) {
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error(`Eroare HTTP la apelarea API-ului: ${response.status} ${response.statusText}`);
+            // Include erorile 4xx și 5xx
+            return response.json().then(errorData => {
+                 throw new Error(errorData.error || `Eroare HTTP la apelarea API-ului: ${response.status} ${response.statusText}`);
+            });
         }
         return response.json();
     })
@@ -170,8 +172,12 @@ function trimitePentruAnaliza(domeniu, procesText) {
         loadingAnimation.classList.remove('is-visible');
         loadingAnimation.style.display = 'none';
         
-        // Detalii: afiseazaRezultatele is not defined - am gasit eroarea si am inclus-o aici
-        rezultateContainer.innerHTML = `<h2 class="error" style="text-align: center; margin-top: 50px;">Eroare de conexiune!</h2><p style="text-align: center; color: var(--secondary-color);">Nu s-a putut contacta API-ul Backend. Vă rugăm verificați log-urile Backend pentru erori de deployment (ex: SyntaxError).</p><div style="text-align: center;"><button id="reset-button">Analizează un alt Proces</button></div>`;
+        // Mesaj de eroare mai detaliat
+        const errorMessage = error.message.includes("Failed to fetch") 
+            ? "Nu s-a putut stabili conexiunea (API-ul este offline sau neaccesibil). Verificați log-urile Backend."
+            : error.message;
+
+        rezultateContainer.innerHTML = `<h2 class="error" style="text-align: center; margin-top: 50px;">Eroare de conexiune!</h2><p style="text-align: center; color: var(--secondary-color);">Detalii: ${errorMessage}</p><div style="text-align: center;"><button id="reset-button">Analizează un alt Proces</button></div>`;
         rezultateContainer.style.display = 'block';
         rezultateContainer.classList.add('is-visible'); 
     });
@@ -195,7 +201,7 @@ function afiseazaRezultatele(data) {
             return;
         }
 
-        // NOU: Am aplicat formatMarkdown pe toate campurile relevante
+        // Am aplicat formatMarkdown pe toate campurile relevante
         let htmlContent = `
             <div id="proces-analizat-box" class="animate-appear delay-1">
                 <h3>Procesul Analizat</h3>
