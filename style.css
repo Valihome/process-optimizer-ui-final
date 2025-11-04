@@ -1,142 +1,237 @@
-/* style.css - Tema Premium cu Animatii Subtile */
+/* style.css - Tema Neagră, Minimalistă, cu Animații de Apariție */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Montserrat:wght@400;600;700;800&display=swap');
 
 :root {
-    /* Schema de Culori Premium */
-    --primary-color: #00bcd4; /* Accent Cyan/Turcoaz */
-    --secondary-color: #99aab5; /* Gri-albăstrui pentru text secundar */
-    --background-color: #0a0a1a; /* Fundal Foarte Întunecat */
-    --text-color: #eceff1; /* Text Alb-Deschis */
-    --card-background: #18182a; /* Fundalul Cardurilor */
-    --input-background: #25253b; /* Fundalul Input-urilor */
-    --shadow: 0 12px 30px rgba(0, 0, 0, 0.7); /* Umbră adâncă, premium */
-    --border-color: #3f3f5a; /* Contur subtil */
+    /* Schema de Culori Minimalista (Negru profund cu accente luminoase) */
+    --primary-color: #00bcd4; /* Accent Cyan */
+    --secondary-color: #bbbbbb; /* Gri deschis pentru text secundar */
+    --background-color: #000000; /* Fundal Negru Complet */
+    --text-color: #ffffff; /* Text Alb Pur */
+    --card-background: #111111; /* Fundalul Cardurilor (negru subtil) */
+    --input-background: #222222; /* Fundalul Input-urilor */
+    --shadow: 0 5px 15px rgba(0, 0, 0, 0.8); /* Umbră subtilă, dar adâncă */
+    --border-color: #333333; /* Contur minimalist */
     --highlight-color: #ffeb3b; /* Galben pentru detalii și cod */
 }
 
 /* Reset și Layout de Bază */
 body {
-    font-family: 'Poppins', sans-serif; /* Font elegant Poppins */
+    font-family: 'Poppins', sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-    min-height: 10vh;
+    min-height: 100vh;
     line-height: 1.6;
-    transition: background-color 0.4s;
+    overflow-x: hidden; /* Previne scroll orizontal de la animatii */
+}
+
+/* Initial ascunde continutul paginii */
+body.initial-hidden #page-content {
+    opacity: 0;
+}
+#page-content {
+    transition: opacity 1s ease-in-out;
 }
 
 /* Antetul Pagină (Header) */
 header {
-    background-color: var(--card-background);
-    color: var(--text-color);
-    padding: 50px 20px 40px;
+    padding: 80px 20px 60px;
     text-align: center;
-    box-shadow: var(--shadow);
-    border-bottom: 2px solid var(--primary-color);
+    position: relative;
+    overflow: hidden; /* Pentru animatia textului */
 }
 
 header h1 {
     font-family: 'Montserrat', sans-serif;
     color: var(--primary-color);
     margin: 0;
-    font-size: 3.5em;
+    font-size: 4.5em; /* Titlu mai mare */
     font-weight: 800;
-    letter-spacing: 1px;
-    text-shadow: 0 0 10px rgba(0, 188, 212, 0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px rgba(0, 188, 212, 0.5);
+    line-height: 1;
 }
+
+header h1 .sparkle {
+    font-size: 0.8em; /* Ajusteaza marimea stelutei */
+    vertical-align: super;
+}
+
 header p {
     color: var(--secondary-color);
-    font-weight: 400;
-    font-size: 1.1em;
+    font-weight: 300;
+    font-size: 1.3em;
+    margin-top: 15px;
+    opacity: 0.8;
 }
+
+/* Animații de Apariție (slide-in din dreapta sau fade-in) */
+.animate-appear {
+    opacity: 0;
+    transform: translateX(100%); /* Vine din dreapta */
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.animate-appear.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Clase de intarziere */
+.delay-1 { transition-delay: 0.2s; }
+.delay-2 { transition-delay: 0.4s; }
+.delay-3 { transition-delay: 0.6s; }
+.delay-4 { transition-delay: 0.8s; }
+
 
 /* Conținutul Principal (Main) */
 main {
-    max-width: 1000px; 
+    max-width: 900px; 
     width: 90%;
-    margin: 70px auto;
-    padding: 20px 0;
+    margin: 60px auto;
+    padding: 0;
     flex-grow: 1;
 }
 
 /* Stiluri Formular și Casetă de Text */
 #analiza-form {
-    background: var(--card-background);
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--border-color);
-    margin-bottom: 50px;
-    opacity: 0.95; 
-    transition: opacity 0.5s ease-in-out;
+    background: transparent; /* Fundal transparent */
+    padding: 0; /* Fara padding pe formular */
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+    margin-bottom: 80px; /* Spatiu mare sub formular */
+    text-align: center; /* Centreaza elementele formularului */
 }
 
 #domeniu-select,
 #proces-input {
-    width: 100%;
-    padding: 20px;
-    margin-bottom: 25px;
+    width: calc(100% - 40px); /* Lasa spatiu pe margini */
+    max-width: 700px; /* Limita pentru a nu fi prea lat */
+    padding: 22px;
+    margin: 0 auto 30px auto; /* Centreaza si adauga spatiu */
     border: 1px solid var(--border-color);
     background-color: var(--input-background);
     color: var(--text-color);
-    border-radius: 10px;
+    border-radius: 12px;
     box-sizing: border-box;
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 400;
+    display: block; /* Ocupa toata latimea disponibila */
     transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
 }
 
 #domeniu-select:focus,
 #proces-input:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.2);
-    background-color: #2a2a40; 
+    box-shadow: 0 0 0 4px rgba(0, 188, 212, 0.25);
+    background-color: #2a2a40;
     outline: none;
+}
+option {
+    background-color: var(--input-background);
+    color: var(--text-color);
 }
 
 /* Stil Buton Principal */
 button {
     background-color: var(--primary-color);
     color: var(--background-color);
-    padding: 15px 35px;
+    padding: 18px 40px;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 17px;
-    font-weight: 600;
-    letter-spacing: 0.8px;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: 1px;
     text-transform: uppercase;
     transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-    box-shadow: 0 4px 15px rgba(0, 188, 212, 0.4);
+    box-shadow: 0 6px 20px rgba(0, 188, 212, 0.5);
 }
 
 button:hover {
-    background-color: #0097a7; 
-    transform: translateY(-3px); 
-    box-shadow: 0 6px 20px rgba(0, 188, 212, 0.6);
+    background-color: #0097a7;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 188, 212, 0.7);
 }
 
-/* Stiluri Rezultate și Carduri (Output API) */
-#rezultate {
-    background: var(--card-background);
-    padding: 45px;
+/* --- Stiluri pentru Animatia de Morphing a Creierului (Loading) --- */
+#loading-animation {
+    background: transparent; /* Fundal transparent */
+    padding: 60px 20px; /* Padding generos */
     border-radius: 15px;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--border-color);
+    box-shadow: none;
+    border: none;
+    text-align: center;
+    margin-bottom: 80px;
+    display: flex; /* Centrare verticala si orizontala */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 250px; /* Asigura spatiu */
+    opacity: 0; /* Initial ascuns */
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+#loading-animation.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.morphing-brain {
+    font-size: 8em; /* Creier mai mare */
+    display: inline-block;
+    animation: morph-brain 3s infinite ease-in-out;
+    color: var(--primary-color); /* Culoarea creierului */
+    text-shadow: 0 0 30px rgba(0, 188, 212, 0.7); /* Efect de stralucire */
+}
+
+@keyframes morph-brain {
+    0% { transform: scale(1) rotateY(0deg); opacity: 1; filter: hue-rotate(0deg); }
+    50% { transform: scale(1.1) rotateY(180deg); opacity: 0.8; filter: hue-rotate(90deg); } /* Schimbare de culoare subtila */
+    100% { transform: scale(1) rotateY(360deg); opacity: 1; filter: hue-rotate(0deg); }
+}
+
+#loading-animation p {
+    color: var(--secondary-color);
+    margin-top: 25px;
+    font-weight: 500;
+    font-size: 1.3em;
+    max-width: 600px;
+}
+
+/* Stiluri Rezultate (Vizualizare fara chenare) */
+#rezultate {
+    background: transparent; /* Fundal transparent */
+    padding: 0; /* Fara padding pe sectiune */
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+    opacity: 0; /* Initial ascuns */
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    min-height: 300px; /* Asigura spatiu pentru rezultate */
+}
+#rezultate.is-visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 #rezultate h2, #rezultate h3 {
     font-family: 'Montserrat', sans-serif;
     color: var(--primary-color);
     border-left: 5px solid var(--primary-color);
-    padding-left: 15px;
-    margin-top: 40px;
-    margin-bottom: 20px;
+    padding-left: 20px;
+    margin-top: 50px;
+    margin-bottom: 25px;
     font-weight: 700;
+    font-size: 2.2em; /* Titluri mai mari */
+    text-shadow: 0 0 10px rgba(0, 188, 212, 0.3);
     transition: color 0.3s;
 }
 
@@ -144,42 +239,52 @@ button:hover {
     margin-top: 0;
 }
 
-/* Carduri pentru oportunități */
+/* Carduri pentru oportunități (stil minimalist) */
 .card {
-    border: 1px solid var(--border-color);
-    padding: 30px;
-    margin-bottom: 30px;
-    border-radius: 12px;
-    background-color: #212135; 
-    transition: border-color 0.3s, transform 0.3s, background-color 0.3s;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    border: none; /* Fara chenar */
+    border-bottom: 1px dashed var(--border-color); /* Separator subtil */
+    padding: 35px 0; /* Padding vertical */
+    margin-bottom: 35px;
+    border-radius: 0;
+    background-color: transparent; /* Fundal transparent */
+    transition: transform 0.3s ease-out; /* Animație la hover */
+    opacity: 0; /* Initial ascunse pentru animatie */
+    transform: translateY(20px);
+}
+.card:last-child {
+    border-bottom: none; /* Fara linie la ultimul card */
+}
+
+.card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .card:hover {
-    border-color: var(--primary-color);
-    transform: translateY(-5px); 
-    background-color: #252540; 
+    transform: translateY(-8px); /* Ridicare mai pronuntata */
 }
 
 .card h4 {
     font-family: 'Montserrat', sans-serif;
     color: var(--text-color);
     margin-top: 0;
-    border-bottom: 1px dashed #4a4a60;
-    padding-bottom: 12px;
-    font-weight: 600;
-    font-size: 1.4em;
+    border-bottom: none;
+    padding-bottom: 0;
+    font-weight: 700;
+    font-size: 1.6em;
+    line-height: 1.3;
 }
 
 .card ul {
     list-style: none;
     padding: 0;
+    margin-top: 25px;
 }
 
 .card ul li {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     color: var(--secondary-color);
-    font-size: 1.05em;
+    font-size: 1.1em;
 }
 
 .card ul li strong {
@@ -189,24 +294,25 @@ button:hover {
 
 /* Cod/Prompt Sugerat */
 .prompt-code {
-    background-color: #0a0a1a;
+    background-color: #0a0a1a; /* Fundal foarte negru pentru cod */
     border: 1px solid #4a4a60;
     color: var(--highlight-color);
-    padding: 18px;
+    padding: 20px;
     border-radius: 8px;
     font-family: 'Courier New', monospace;
     overflow-x: auto;
     width: 100%;
     box-sizing: border-box;
-    min-height: 120px;
-    font-size: 0.95em;
+    min-height: 150px;
+    font-size: 1em;
+    margin-top: 25px;
 }
 
 .copy-btn {
     background-color: var(--secondary-color); 
     color: white;
-    margin-top: 20px;
-    padding: 12px 25px;
+    margin-top: 25px;
+    padding: 14px 30px;
     font-weight: 600;
     border-radius: 8px;
     text-transform: uppercase;
@@ -215,84 +321,22 @@ button:hover {
 
 .copy-btn:hover {
     background-color: #7b8b99;
-    transform: scale(1.02); 
+    transform: scale(1.03); 
 }
 
 .error {
     color: #ef5350;
+    font-weight: 600;
 }
 
 /* Footer */
 footer {
     text-align: center;
-    padding: 30px;
-    margin-top: 60px;
+    padding: 40px;
+    margin-top: 80px;
     color: var(--secondary-color);
-    background-color: var(--card-background);
+    background-color: transparent; /* Fundal transparent */
     border-top: 1px solid var(--border-color);
     font-weight: 400;
-}
-
-/* --- Stiluri pentru Animatii JavaScript (Fade-In) --- */
-
-/* Starea initiala: invizibil si mutat usor in sus (pentru un efect placut de lift) */
-.fade-in-section {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    will-change: opacity, transform; /* Optimizeaza performanta animatiei */
-}
-
-/* Starea finala: vizibil si la pozitia normala */
-.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Aplicam clasa si pe carduri pentru a le face sa apara in cascada */
-.card {
-    /* ... (restul stilului cardului - definit mai sus) ... */
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.4s ease-out 0.1s, transform 0.4s ease-out 0.1s, border-color 0.3s;
-}
-
-/* Starea vizibila pentru carduri */
-.card.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-/* --- Stiluri pentru Animatia de Morphing a Creierului (Loading) --- */
-
-#loading-animation {
-    background: var(--card-background);
-    padding: 45px;
-    border-radius: 15px;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--primary-color); /* Iese in evidenta in timpul analizei */
-    text-align: center;
-    margin-bottom: 50px;
-    /* Tranziție pentru efectul de morph/schimbare (important!) */
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-}
-
-.morphing-brain {
-    font-size: 5em;
-    display: inline-block;
-    /* Aplica Animatia CSS */
-    animation: morph-brain 3s infinite ease-in-out;
-    color: var(--primary-color);
-}
-
-@keyframes morph-brain {
-    0% { transform: scale(1) rotateY(0deg); opacity: 1; }
-    50% { transform: scale(1.1) rotateY(180deg); opacity: 0.8; }
-    100% { transform: scale(1) rotateY(360deg); opacity: 1; }
-}
-
-#loading-animation p {
-    color: var(--secondary-color);
-    margin-top: 15px;
-    font-weight: 500;
-    font-size: 1.1em;
+    opacity: 0.7;
 }
