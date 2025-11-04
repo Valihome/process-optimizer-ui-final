@@ -1,507 +1,404 @@
-/* style.css - Tema Neagră, Minimalistă, cu Animații de Apariție */
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Montserrat:wght@400;600;700;800&display=swap');
-
+/* =========================================
+   1. Variabile CSS si Reset de Baza
+   ========================================= */
 :root {
-    /* Schema de Culori Minimalista (Negru profund cu accente luminoase) */
-    --primary-color: #00bcd4; /* Accent Cyan */
-    --secondary-color: #bbbbbb; /* Gri deschis pentru text secundar */
-    --background-color: #000000; /* Fundal Negru Complet */
-    --text-color: #ffffff; /* Text Alb Pur */
-    --card-background: #111111; /* Fundalul Cardurilor (negru subtil) */
-    --input-background: #222222; /* Fundalul Input-urilor */
-    --shadow: 0 5px 15px rgba(0, 0, 0, 0.8); /* Umbră subtilă, dar adâncă */
-    --border-color: #333333; /* Contur minimalist */
-    --highlight-color: #ffeb3b; /* Galben pentru detalii și cod */
+    --primary-color: #4CAF50; /* Verde intens */
+    --secondary-color: #81C784; /* Verde deschis */
+    --background-color: #121212; /* Foarte intunecat */
+    --surface-color: #1E1E1E; /* Suprafete/Carduri */
+    --text-color: #E0E0E0; /* Text deschis */
+    --highlight-color: #FFEB3B; /* Galben (pentru atentie) */
+    --error-color: #EF5350; /* Rosu */
+    --border-color: #333333;
+    --timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth transition */
 }
 
-/* Reset și Layout de Bază */
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
+/* Reset de baza si setari de responsivitate */
+html, body {
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    line-height: 1.6;
-    overflow-x: hidden; 
-}
-
-/* --------------------------------- */
-/* I. Stiluri Ecran Introductiv (Landing) */
-/* --------------------------------- */
-
-#intro-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 100%;
+    /* Foarte important pentru a preveni problemele de zoom */
+    min-height: 100%;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden; /* Previne scroll-ul orizontal pe mobil */
+}
+
+* {
+    box-sizing: inherit;
+}
+
+#page-content {
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+}
+
+/* =========================================
+   2. Stiluri Generale Aplicatie
+   ========================================= */
+
+header {
+    background-color: var(--surface-color);
+    padding: 20px 0;
     text-align: center;
-    padding: 20px;
-    z-index: 100; 
+    border-bottom: 1px solid var(--border-color);
+}
+
+header h1 {
+    color: var(--primary-color);
+    margin: 0;
+    font-size: 2.5em;
+}
+
+header p {
+    color: var(--secondary-color);
+    margin-top: 5px;
+}
+
+.sparkle {
+    color: var(--highlight-color);
+    font-size: 1.2em;
+}
+
+main {
+    flex-grow: 1;
+    padding: 40px 20px;
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+footer {
+    padding: 15px 20px;
+    text-align: center;
+    color: #666;
+    border-top: 1px solid var(--border-color);
+    margin-top: auto; /* Impinge footer-ul jos */
+}
+
+/* Formulary Styles */
+#analiza-form {
+    background-color: var(--surface-color);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.5s var(--timing-function), transform 0.5s var(--timing-function);
+}
+
+#analiza-form.initial-app-elements {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+#analiza-form.initial-app-elements.is-visible {
     opacity: 1;
-    transition: opacity 1s ease-in-out;
+    transform: translateY(0);
+}
+
+select, textarea, button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    font-size: 1em;
+    border: 1px solid var(--border-color);
+    background-color: #2a2a2a;
+    color: var(--text-color);
+    resize: vertical;
+}
+
+button {
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+button[type="submit"] {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    border: none;
+}
+
+button[type="submit"]:hover {
+    background-color: #66BB6A;
+    transform: translateY(-1px);
+}
+
+/* =========================================
+   3. Stiluri Ecran Introductiv
+   ========================================= */
+
+#intro-screen {
+    max-width: 900px;
+    width: 90%; /* Responsivitate */
+    margin: 40px auto;
+    padding: 20px;
 }
 
 .intro-title {
-    font-family: 'Montserrat', sans-serif;
+    text-align: center;
     color: var(--primary-color);
-    font-size: 3.5em;
-    font-weight: 800;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    text-shadow: 0 0 20px rgba(0, 188, 212, 0.5);
+    font-size: 3em;
     margin-bottom: 40px;
 }
 
-.intro-text-container {
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: left;
-    padding: 20px;
+.intro-text-container p {
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.8s var(--timing-function), transform 0.8s var(--timing-function);
 }
 
-#intro-screen p {
-    font-size: 1.3em;
-    line-height: 1.6;
-    margin-bottom: 25px;
+.intro-text-container p strong {
     color: var(--secondary-color);
 }
-#intro-screen p strong {
-    color: var(--text-color);
+
+.intro-text-container p em {
+    font-style: italic;
+    color: var(--highlight-color);
 }
 
-.cta-final {
-    font-weight: 600 !important;
-    font-size: 1.4em !important;
-    color: var(--primary-color) !important;
-    text-align: center;
-    border-top: 1px dashed var(--border-color);
-    padding-top: 30px;
-    margin-top: 40px !important;
-}
-
-.intro-button {
-    background-color: var(--primary-color);
-    color: var(--background-color);
-    padding: 18px 40px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 19px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-    box-shadow: 0 6px 20px rgba(0, 188, 212, 0.5);
-    margin-top: 40px;
-}
-
-.intro-button:hover {
-    background-color: #0097a7;
-    transform: translateY(-4px);
-    box-shadow: 0 10px 25px rgba(0, 188, 212, 0.7);
-}
-
-/* Animații introductive (Fade-in secvential) */
 .animate-intro-h1 {
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s;
-}
-.animate-intro-p {
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-.animate-intro-p.is-visible {
-    opacity: 1;
-    transform: translateY(0);
+    transform: translateY(-20px);
+    transition: opacity 0.8s var(--timing-function), transform 0.8s var(--timing-function);
 }
 .animate-intro-h1.is-visible {
     opacity: 1;
     transform: translateY(0);
 }
 
-.delay-1 { transition-delay: 0.3s; }
-.delay-2 { transition-delay: 0.9s; }
-.delay-3 { transition-delay: 1.5s; }
-.delay-4 { transition-delay: 2.1s; }
-.delay-5 { transition-delay: 2.7s; }
-.delay-6 { transition-delay: 3.3s; }
-.delay-7 { transition-delay: 3.8s; }
+/* Secventa de Animatie */
+.delay-1.is-visible { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
+.delay-2.is-visible { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
+.delay-3.is-visible { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
+.delay-4.is-visible { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
+.delay-5.is-visible { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
+.delay-6.is-visible { transition-delay: 0.6s; opacity: 1; transform: translateY(0); }
+.delay-7.is-visible { transition-delay: 0.7s; opacity: 1; transform: translateY(0); }
 
 
-/* --------------------------------- */
-/* II. Stiluri Aplicatie (Dupa Intro) */
-/* --------------------------------- */
-
-#app-content {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    transition: opacity 1s ease-in-out;
-}
-
-
-/* Stiluri de Baza (pastrate de la varianta anterioara) */
-header {
-    padding: 80px 20px 60px;
-    text-align: center;
-    position: relative;
-    overflow: hidden; 
-}
-header h1 {
-    font-family: 'Montserrat', sans-serif;
-    color: var(--primary-color);
-    margin: 0;
-    font-size: 4.5em; 
-    font-weight: 800;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    text-shadow: 0 0 20px rgba(0, 188, 212, 0.5);
-    line-height: 1;
-}
-header h1 .sparkle {
-    font-size: 0.8em; 
-    vertical-align: super;
-}
-header p {
-    color: var(--secondary-color);
-    font-weight: 300;
-    font-size: 1.3em;
-    margin-top: 15px;
-    opacity: 0.8;
-}
-
-/* NOU: Clasa generica pentru animarea elementelor de la inceputul aplicatiei */
-.initial-app-elements {
-    opacity: 0;
-    transform: translateX(100%); /* Vine din dreapta */
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-.initial-app-elements.is-visible {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-/* Animații de Apariție pentru Rezultate */
-.animate-appear {
-    opacity: 0;
-    transform: translateY(20px); /* Vine de jos (carduri, titluri rezultate) */
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-.animate-appear.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Clase de intarziere */
-.delay-1 { transition-delay: 0.2s; }
-.delay-2 { transition-delay: 0.4s; }
-.delay-3 { transition-delay: 0.6s; }
-.delay-4 { transition-delay: 0.8s; }
-.delay-5 { transition-delay: 1.0s; }
-.delay-6 { transition-delay: 1.2s; }
-
-
-/* Conținutul Principal (Main) */
-main {
-    max-width: 900px; 
-    width: 90%;
-    margin: 60px auto;
-    padding: 0;
-    flex-grow: 1;
-}
-
-/* Stiluri Formular și Casetă de Text */
-#analiza-form {
-    background: transparent; 
-    padding: 0; 
-    border-radius: 0;
-    box-shadow: none;
-    border: none;
-    margin-bottom: 80px; 
-    text-align: center; 
-}
-
-#domeniu-select, #proces-input {
-    width: calc(100% - 40px);
-    max-width: 700px; 
-    padding: 22px;
-    margin: 0 auto 30px auto; 
-    border: 1px solid var(--border-color);
-    background-color: var(--input-background);
-    color: var(--text-color);
-    border-radius: 12px;
-    box-sizing: border-box;
-    font-size: 18px;
-    font-weight: 400;
-    display: block; 
-    transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
-}
-
-#domeniu-select:focus, #proces-input:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 4px rgba(0, 188, 212, 0.25);
-    background-color: #2a2a40;
-    outline: none;
-}
-option {
-    background-color: var(--input-background);
-    color: var(--text-color);
-}
-
-/* Stil Buton Principal (folosit si la intro-button) */
-button {
-    background-color: var(--primary-color);
+/* Butonul de Start */
+.intro-button {
+    background-color: var(--highlight-color);
     color: var(--background-color);
-    padding: 18px 40px;
     border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 19px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-    box-shadow: 0 6px 20px rgba(0, 188, 212, 0.5);
+    padding: 15px 30px;
+    font-size: 1.1em;
+    border-radius: 25px;
+    display: block; /* Ocupa toata latimea */
+    margin: 30px auto 0;
+    max-width: 300px;
 }
 
-button:hover {
-    background-color: #0097a7;
-    transform: translateY(-4px);
-    box-shadow: 0 10px 25px rgba(0, 188, 212, 0.7);
+.intro-button:hover {
+    background-color: #FFE082;
 }
 
-/* Stil pentru butonul de repornire */
-#reset-button {
-    background-color: var(--card-background);
-    border: 1px solid var(--primary-color);
-    color: var(--primary-color);
-    margin-top: 50px;
-    padding: 15px 35px;
-    font-size: 17px;
-    font-weight: 600;
-    letter-spacing: 0.8px;
-    text-transform: none;
-    transition: background-color 0.3s, transform 0.2s;
-    box-shadow: none;
-}
-#reset-button:hover {
-    background-color: #1a1a3a;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 188, 212, 0.4);
-}
+/* =========================================
+   4. Stiluri Rezultate si Carduri
+   ========================================= */
 
-
-/* --- Stiluri pentru Animatia de Morphing a Creierului (Loading) --- */
-#loading-animation {
-    background: transparent; 
-    padding: 60px 20px; 
-    border-radius: 15px;
-    box-shadow: none;
-    border: none;
-    text-align: center;
-    margin-bottom: 80px;
-    display: flex; 
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 250px; 
-    opacity: 0; 
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-#loading-animation.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.morphing-brain {
-    font-size: 8em; 
-    display: inline-block;
-    animation: morph-brain 3s infinite ease-in-out;
-    color: var(--primary-color); 
-    text-shadow: 0 0 30px rgba(0, 188, 212, 0.7); 
-}
-
-@keyframes morph-brain {
-    0% { transform: scale(1) rotateY(0deg); opacity: 1; filter: hue-rotate(0deg); }
-    50% { transform: scale(1.1) rotateY(180deg); opacity: 0.8; filter: hue-rotate(90deg); }
-    100% { transform: scale(1) rotateY(360deg); opacity: 1; filter: hue-rotate(0deg); }
-}
-
-#loading-animation p {
-    color: var(--secondary-color);
-    margin-top: 25px;
-    font-weight: 500;
-    font-size: 1.3em;
-    max-width: 600px;
-}
-
-/* Stiluri Rezultate (Vizualizare fara chenare) */
 #rezultate {
-    background: transparent; 
-    padding: 0; 
-    border-radius: 0;
-    box-shadow: none;
-    border: none;
-    opacity: 0; 
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    min-height: 300px; 
+    padding: 30px 0;
+    opacity: 0;
+    transition: opacity 0.6s var(--timing-function);
 }
+
 #rezultate.is-visible {
     opacity: 1;
-    transform: translateY(0);
 }
 
-#rezultate h2, #rezultate h3 {
-    font-family: 'Montserrat', sans-serif;
+#rezultate h2 {
     color: var(--primary-color);
-    border-left: 5px solid var(--primary-color);
-    padding-left: 20px;
-    margin-top: 50px;
-    margin-bottom: 25px;
-    font-weight: 700;
-    font-size: 2.2em; 
-    text-shadow: 0 0 10px rgba(0, 188, 212, 0.3);
-    transition: color 0.3s;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 5px;
 }
+
 #rezultate h3 {
-    font-size: 1.8em;
+    color: var(--text-color);
+    margin-top: 25px;
 }
 
-#rezultate h2:first-child {
-    margin-top: 0;
-}
-
-/* Container pentru procesul analizat */
 #proces-analizat-box {
-    background-color: var(--input-background);
-    padding: 30px;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    margin-bottom: 50px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-#proces-analizat-box.is-visible {
-    opacity: 1;
-    transform: translateY(0);
+    background-color: #232323;
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 30px;
+    border-left: 5px solid var(--highlight-color);
 }
 
+#proces-analizat-box h3 {
+    margin-top: 0;
+    color: var(--highlight-color);
+}
 
-/* Carduri pentru oportunități (stil minimalist) */
 .card {
-    border: none; 
-    border-bottom: 1px dashed var(--border-color); 
-    padding: 35px 0; 
-    margin-bottom: 35px;
-    border-radius: 0;
-    background-color: transparent; 
-    transition: transform 0.3s ease-out; 
-    opacity: 0; 
-    transform: translateY(20px);
-}
-.card:last-child {
-    border-bottom: none; 
-}
-
-.card.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.card:hover {
-    transform: translateY(-8px); 
+    background-color: var(--surface-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    border-left: 4px solid var(--secondary-color);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.6s var(--timing-function), transform 0.6s var(--timing-function);
 }
 
 .card h4 {
-    font-family: 'Montserrat', sans-serif;
-    color: var(--text-color);
+    color: var(--secondary-color);
     margin-top: 0;
-    border-bottom: none;
-    padding-bottom: 0;
-    font-weight: 700;
-    font-size: 1.6em;
-    line-height: 1.3;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--border-color);
 }
 
 .card ul {
     list-style: none;
     padding: 0;
-    margin-top: 25px;
 }
 
-.card ul li {
-    margin-bottom: 12px;
-    color: var(--secondary-color);
-    font-size: 1.1em;
+.card li {
+    margin-bottom: 8px;
 }
 
-.card ul li strong {
+.card li strong {
     color: var(--text-color);
-    font-weight: 600;
 }
 
-/* Cod/Prompt Sugerat */
 .prompt-code {
-    background-color: #0a0a1a; 
-    border: 1px solid #4a4a60;
-    color: var(--highlight-color);
-    padding: 20px;
-    border-radius: 8px;
-    font-family: 'Courier New', monospace;
-    overflow-x: auto;
     width: 100%;
-    box-sizing: border-box;
-    min-height: 150px;
-    font-size: 1em;
-    margin-top: 25px;
+    min-height: 80px;
+    background-color: #000;
+    color: #4CAF50;
+    border: 1px solid #000;
+    padding: 10px;
+    border-radius: 4px;
+    font-family: monospace;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 .copy-btn {
-    background-color: var(--secondary-color); 
-    color: white;
-    margin-top: 25px;
-    padding: 14px 30px;
-    font-weight: 600;
-    border-radius: 8px;
-    text-transform: uppercase;
-    transition: background-color 0.3s, transform 0.2s;
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    border: none;
+    padding: 10px 15px;
+    margin-top: 10px;
+    float: right;
+    border-radius: 4px;
 }
 
 .copy-btn:hover {
-    background-color: #7b8b99;
-    transform: scale(1.03); 
+    background-color: #66BB6A;
 }
 
-.error {
-    color: #ef5350;
-    font-weight: 600;
+/* Animatii pentru rezultate */
+.animate-appear {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.6s var(--timing-function), transform 0.6s var(--timing-function);
 }
+.animate-appear.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* Foloseste aceleasi delay-uri pentru a crea secventialitate */
+/* delay-1, delay-2, etc. ... */
 
-/* Footer */
-footer {
+/* =========================================
+   5. Loading State
+   ========================================= */
+
+#loading-animation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    padding: 40px;
-    margin-top: 80px;
-    color: var(--secondary-color);
-    background-color: transparent; 
-    border-top: 1px solid var(--border-color);
-    font-weight: 400;
-    opacity: 0.7;
+    padding: 50px;
+    opacity: 0;
+    transition: opacity 0.6s;
+    min-height: 200px;
+}
+
+#loading-animation.is-visible {
+    opacity: 1;
+}
+
+.morphing-brain {
+    font-size: 4em;
+    animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(0.95);
+        opacity: 0.8;
+    }
+    to {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+}
+
+/* =========================================
+   6. Responsivitate (Fixează Problemele de Zoom/Mobil)
+   ========================================= */
+
+@media (max-width: 950px) {
+    /* Ajustari generale pentru tableta/mobil mare */
+    main {
+        padding: 20px 10px;
+    }
+    
+    header h1 {
+        font-size: 2em;
+    }
+    
+    .intro-title {
+        font-size: 2.5em;
+    }
+    
+    /* Asigura ca toate cardurile si containerul de text se adapteaza */
+    #intro-screen {
+        width: 95%;
+    }
+}
+
+@media (max-width: 600px) {
+    /* Ajustari pentru ecrane de telefon */
+    body {
+        font-size: 15px; /* Lizibilitate sporita pe mobil */
+    }
+
+    .intro-title {
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+
+    header h1 {
+        font-size: 1.8em;
+    }
+    
+    .card {
+        padding: 15px;
+    }
+
+    .copy-btn {
+        float: none; /* Butonul de copiere sub textarea */
+        width: 100%;
+        margin-top: 15px;
+    }
+    
+    /* Asigura ca textul nu este taiat si are padding decent */
+    .intro-text-container p {
+        padding: 0 5px;
+    }
 }
