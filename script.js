@@ -4,6 +4,7 @@ const API_BASE_URL = 'https://process-optimizer-api.onrender.com';
 // Elementele cheie
 const loadingAnimation = document.getElementById('loading-animation');
 const rezultateContainer = document.getElementById('rezultate');
+const pageContent = document.getElementById('page-content');
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Initializare Formular si Event Listener
@@ -38,35 +39,48 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 3. Initializare Intersection Observer pentru Animatii Fade-In
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1 
-    });
+    // NOU: Functie pentru a face elementele sa apara secvential
+    function setupAppearAnimation() {
+        const observerOptions = {
+            root: null, // Observa in raport cu viewport-ul
+            rootMargin: '0px',
+            threshold: 0.1 // Cand 10% din element e vizibil
+        };
 
-    // Observa toate elementele care au clasa .fade-in-section
-    document.querySelectorAll('.fade-in-section').forEach(section => {
-        observer.observe(section);
-    });
+        const observerCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Opreste observarea dupa animatie
+                }
+            });
+        };
+
+        const appearObserver = new IntersectionObserver(observerCallback, observerOptions);
+
+        // Aplica observatorul pe elementele cu clasa .animate-appear
+        document.querySelectorAll('.animate-appear').forEach(element => {
+            appearObserver.observe(element);
+        });
+    }
+
+    // Afiseaza continutul paginii si porneste animatiile initiale
+    document.body.classList.remove('initial-hidden');
+    pageContent.style.opacity = '1';
+    setupAppearAnimation(); 
 });
 
 /**
  * Trimite descrierea procesului și domeniul către API-ul Backend.
  */
 function trimitePentruAnaliza(domeniu, procesText) {
-    
-    // NOU: Etapa 1 - Incepe Animatia si Ascunde Rezultatele
+    // Ascunde rezultatele vechi si afiseaza animatia de loading
+    rezultateContainer.style.display = 'none';
     rezultateContainer.classList.remove('is-visible');
-    rezultateContainer.innerHTML = '';
-    
-    loadingAnimation.style.display = 'block';
-    loadingAnimation.classList.add('is-visible'); 
+    rezultateContainer.innerHTML = ''; // Curata pentru noua analiza
+
+    loadingAnimation.style.display = 'flex'; // Afiseaza animatia de loading
+    loadingAnimation.classList.add('is-visible'); // Animația de apariție a loading-ului
     
     const apiEndpoint = `${API_BASE_URL}/api/analyze`; 
 
@@ -87,16 +101,15 @@ function trimitePentruAnaliza(domeniu, procesText) {
         return response.json();
     })
     .then(data => {
-        // NOU: Etapa 2 - Afiseaza Rezultatele
         afiseazaRezultatele(data); 
     })
     .catch(error => {
-        // NOU: Etapa 2b - Afiseaza Eroarea
         loadingAnimation.classList.remove('is-visible');
         loadingAnimation.style.display = 'none';
         
-        rezultateContainer.innerHTML = `<h2 class="error">Eroare de conexiune!</h2><p>Nu s-a putut finaliza cererea catre API. Detalii: ${error.message}</p>`;
-        rezultateContainer.classList.add('is-visible'); 
+        rezultateContainer.innerHTML = `<h2 class="error" style="text-align: center; margin-top: 50px;">Eroare de conexiune!</h2><p style="text-align: center; color: var(--secondary-color);">${error.message}</p>`;
+        rezultateContainer.style.display = 'block';
+        rezultateContainer.classList.add('is-visible');
     });
 }
 
@@ -104,34 +117,34 @@ function trimitePentruAnaliza(domeniu, procesText) {
  * Prelucrează și afișează datele JSON primite de la Backend.
  */
 function afiseazaRezultatele(data) {
-    // NOU: Etapa 3 - Ascunde Animatia si Afiseaza Continutul Nou
+    // Ascunde animatia de loading
     loadingAnimation.classList.remove('is-visible');
     
     // Asteapta ca animatia de fade-out a loading-ului sa se termine
     setTimeout(() => {
         loadingAnimation.style.display = 'none';
         
-        rezultateContainer.innerHTML = ''; 
-
         if (data.error) {
-            rezultateContainer.innerHTML = `<h2 class="error">Eroare de analiza:</h2><p>${data.error}</p>`;
+            rezultateContainer.innerHTML = `<h2 class="error" style="text-align: center; margin-top: 50px;">Eroare de analiza:</h2><p style="text-align: center; color: var(--secondary-color);">${data.error}</p>`;
+            rezultateContainer.style.display = 'block';
             rezultateContainer.classList.add('is-visible');
             return;
         }
 
         let htmlContent = `
-            <h2 style="color: var(--primary-color);">Analiza Generala</h2>
-            <p style="font-style: italic; border-left: 3px solid var(--primary-color); padding-left: 10px;">${data.analiza_generala}</p>
-            <hr style="margin-top: 40px; border-color: var(--border-color);">
-            <h3 style="color: var(--text-color);">Oportunitati de Optimizare</h3>
+            <h2 class="animate-appear delay-1">Analiza Generala</h2>
+            <p class="animate-appear delay-2" style="font-style: italic; border-left: 3px solid var(--primary-color); padding-left: 10px;">${data.analiza_generala}</p>
+            <hr style="margin-top: 40px; border-color: var(--border-color);" class="animate-appear delay-3">
+            <h3 class="animate-appear delay-4" style="color: var(--text-color);">Oportunitati de Optimizare</h3>
         `;
         
         if (data.oportunitati_optimizare && data.oportunitati_optimizare.length > 0) {
             data.oportunitati_optimizare.forEach((oportunitate, index) => {
                 const safePrompt = oportunitate.prompt_cod_relevant.replace(/"/g, '&quot;');
                 
+                // Fiecare card apare cu o intarziere suplimentara
                 htmlContent += `
-                    <div class="card"> 
+                    <div class="card animate-appear delay-${5 + index}"> 
                         <h4>${index + 1}. Pas original: **${oportunitate.pas_proces_original}**</h4>
                         <ul>
                             <li><strong>Ineficienta:</strong> ${oportunitate.tip_ineficienta}</li>
@@ -147,33 +160,37 @@ function afiseazaRezultatele(data) {
                 `;
             });
         } else {
-            htmlContent += '<p>Nu au fost identificate oportunitati clare de optimizare.</p>';
+            htmlContent += '<p class="animate-appear delay-5" style="text-align: center; color: var(--secondary-color);">Nu au fost identificate oportunitati clare de optimizare.</p>';
         }
 
         htmlContent += `
-            <hr style="margin-top: 40px; border-color: var(--border-color);">
-            <h3 style="color: var(--secondary-color);">Pasi Urmatori</h3>
-            <p>${data.next_steps}</p>
+            <hr style="margin-top: 40px; border-color: var(--border-color);" class="animate-appear delay-${5 + data.oportunitati_optimizare.length}">
+            <h3 class="animate-appear delay-${6 + data.oportunitati_optimizare.length}" style="color: var(--secondary-color);">Pasi Urmatori</h3>
+            <p class="animate-appear delay-${7 + data.oportunitati_optimizare.length}">${data.next_steps}</p>
         `;
 
         rezultateContainer.innerHTML = htmlContent;
-        rezultateContainer.classList.add('is-visible'); // Declanseaza animatia de aparitie
+        rezultateContainer.style.display = 'block';
         
-        // Observa noile carduri generate pentru a le anima
-        const observer = new IntersectionObserver((entries, observer) => {
+        // Re-aplica observer-ul pe noile elemente animate din rezultate
+        const observerOptions = {
+            root: null, 
+            rootMargin: '0px',
+            threshold: 0.1 
+        };
+
+        const observerCallback = (entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
+                    observer.unobserve(entry.target); 
                 }
             });
-        }, {
-            threshold: 0.1
+        };
+        const appearObserver = new IntersectionObserver(observerCallback, observerOptions);
+        document.querySelectorAll('#rezultate .animate-appear').forEach(element => {
+            appearObserver.observe(element);
         });
 
-        document.querySelectorAll('#rezultate .card').forEach(card => {
-            observer.observe(card);
-        });
-
-    }, 500); // Asteapta 500ms pentru a simula tranzitia fluida
+    }, 600); // Asteapta mai mult pentru o tranzitie mai fluida
 }
