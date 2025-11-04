@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const appContent = document.getElementById('app-content');
     const startButton = document.getElementById('start-app-button');
     const analizaForm = document.getElementById('analiza-form');
-    const analizaButton = analizaForm.querySelector('button[type="submit"]'); // NOU: Selecteaza butonul de analiza
+    const analizaButton = analizaForm.querySelector('button[type="submit"]'); // Selecteaza butonul de analiza
     const procesInput = document.getElementById('proces-input');
     const domeniuSelect = document.getElementById('domeniu-select');
     const rezultateSection = document.getElementById('rezultate');
