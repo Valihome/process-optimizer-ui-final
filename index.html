@@ -3,53 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Process Optimizer AI ✨</title>
+    <title>Catalizatorul de Eficiență ✨</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="initial-hidden">
+    
     <div id="page-content">
-        <header>
-            <h1 class="animate-appear">Process Optimizer AI <span class="sparkle">✨</span></h1>
-            <p class="animate-appear delay-1">Analizeaza un proces pentru a gasi oportunitati de automatizare.</p>
-        </header>
-
-        <main>
-            <form id="analiza-form" class="animate-appear delay-2">
-                <select id="domeniu-select">
-                    <option value="">-- Alege Domeniul Procesului (Expertiza) --</option>
-                    <option value="IT (Dezvoltare Software)">IT (Dezvoltare Software)</option>
-                    <option value="IT (Suport Tehnic/Helpdesk)">IT (Suport Tehnic/Helpdesk)</option>
-                    <option value="IT (Securitate Cibernetica)">IT (Securitate Cibernetica)</option>
-                    <option value="Resurse Umane (Recrutare si Onboarding)">Resurse Umane (Recrutare si Onboarding)</option>
-                    <option value="Resurse Umane (Administrare Salarizare)">Resurse Umane (Administrare Salarizare)</option>
-                    <option value="Resurse Umane (Training si Performanta)">Resurse Umane (Training si Performanta)</option>
-                    <option value="Financiar (Contabilitate si Facturare)">Financiar (Contabilitate si Facturare)</option>
-                    <option value="Financiar (Analiza Bugetara si Raportare)">Financiar (Analiza Bugetara si Raportare)</option>
-                    <option value="Financiar (Trezorerie si Plati)">Financiar (Trezorerie si Plati)</option>
-                    <option value="Logistica (Gestiunea Stocurilor)">Logistica (Gestiunea Stocurilor)</option>
-                    <option value="Logistica (Lantul de Aprovizionare/Supply Chain)">Logistica (Lantul de Aprovizionare/Supply Chain)</option>
-                    <option value="Vanzari (Procesare Comenzi)">Vanzari (Procesare Comenzi)</option>
-                    <option value="Vanzari (Managementul Lead-urilor/CRM)">Vanzari (Managementul Lead-urilor/CRM)</option>
-                    <option value="Servicii Clienti (Ticketing si Suport)">Servicii Clienti (Ticketing si Suport)</option>
-                    <option value="Administrativ (Gestiunea Documentelor)">Administrativ (Gestiunea Documentelor)</option>
-                    <option value="General/Altele">General/Altele</option>
-                </select>
+        <section id="intro-screen">
+            <h1 class="intro-title animate-intro-h1">Catalizatorul de Eficiență</h1>
+            
+            <div class="intro-text-container">
+                <p class="animate-intro-p delay-1">Trăim într-o eră a vitezei și a datelor, însă multe companii rămân blocate în rutine ineficiente.</p>
                 
-                <textarea id="proces-input" rows="10" placeholder="Descrie pas cu pas procesul pe care doresti sa-l optimizezi (Ex: 1. Primesc un email. 2. Copiez datele in Excel...)."></textarea>
-                <button type="submit">Analizeaza Procesul</button>
-            </form>
-
-            <div id="loading-animation" style="display: none;">
-                <div class="morphing-brain">🧠</div> <p>Se analizează procesul... Se creează legături neuronale. Vă rugăm așteptați.</p>
+                <p class="animate-intro-p delay-2">Procesele zilnice, de la introducerea manuală a datelor până la aprobările birocratice, nu doar că **irosesc timp și resurse prețioase**, dar sufocă și inovația. Ai simțit vreodată că echipa ta petrece mai mult timp *gestionând* munca decât *creând* valoare?</p>
+                
+                <p class="animate-intro-p delay-3">Această platformă este răspunsul. Ea nu este doar un instrument de analiză; este un **catalizator pentru transformarea digitală**.</p>
+                
+                <p class="animate-intro-p delay-4">Pur și simplu descrie un proces, oricât de complex ar fi. Motorul de analiză va examina fiecare pas pentru a identifica instantaneu blocajele, redundanțele și punctele de **risipă de timp**.</p>
+                
+                <p class="animate-intro-p delay-5">Vei primi **soluții acționabile**, nu doar o listă de probleme. Prin eliminarea sarcinilor repetitive și reducerea erorilor, poți elibera echipele să se concentreze pe strategii de creștere, îmbunătățind **productivitatea generală**.</p>
+                
+                <p class="animate-intro-p delay-6 cta-final">Încetează să lucrezi *în* procese vechi și începe să lucrezi *la* ele.</p>
+                
+                <button id="start-app-button" class="intro-button animate-intro-p delay-7">Începe Analiza</button>
             </div>
+        </section>
 
-            <section id="rezultate" style="display: none;">
-                </section>
-        </main>
+        <div id="app-content" style="opacity: 0; display: none;">
+            
+            <header>
+                <h1 class="animate-appear">Catalizatorul de Eficiență <span class="sparkle">✨</span></h1>
+                <p class="animate-appear delay-1">Analizează un proces pentru a găsi oportunități de automatizare.</p>
+            </header>
 
-        <footer>
-            <p>&copy; 2025 Process Optimization App</p>
-        </footer>
+            <main>
+                <form id="analiza-form" class="animate-appear delay-2">
+                    <select id="domeniu-select">
+                        <option value="">-- Alege Domeniul Procesului (Expertiza) --</option>
+                        <option value="IT (Dezvoltare Software)">IT (Dezvoltare Software)</option>
+                        <option value="IT (Suport Tehnic/Helpdesk)">IT (Suport Tehnic/Helpdesk)</option>
+                        <option value="IT (Securitate Cibernetica)">IT (Securitate Cibernetica)</option>
+                        <option value="Resurse Umane (Recrutare si Onboarding)">Resurse Umane (Recrutare si Onboarding)</option>
+                        <option value="Resurse Umane (Administrare Salarizare)">Resurse Umane (Administrare Salarizare)</option>
+                        <option value="Resurse Umane (Training si Performanta)">Resurse Umane (Training si Performanta)</option>
+                        <option value="Financiar (Contabilitate si Facturare)">Financiar (Contabilitate si Facturare)</option>
+                        <option value="Financiar (Analiza Bugetara si Raportare)">Financiar (Analiza Bugetara si Raportare)</option>
+                        <option value="Financiar (Trezorerie si Plati)">Financiar (Trezorerie si Plati)</option>
+                        <option value="Logistica (Gestiunea Stocurilor)">Logistica (Gestiunea Stocurilor)</option>
+                        <option value="Logistica (Lantul de Aprovizionare/Supply Chain)">Logistica (Lantul de Aprovizionare/Supply Chain)</option>
+                        <option value="Vanzari (Procesare Comenzi)">Vanzari (Procesare Comenzi)</option>
+                        <option value="Vanzari (Managementul Lead-urilor/CRM)">Vanzari (Managementul Lead-urilor/CRM)</option>
+                        <option value="Servicii Clienti (Ticketing si Suport)">Servicii Clienti (Ticketing si Suport)</option>
+                        <option value="Administrativ (Gestiunea Documentelor)">Administrativ (Gestiunea Documentelor)</option>
+                        <option value="General/Altele">General/Altele</option>
+                    </select>
+                    
+                    <textarea id="proces-input" rows="10" placeholder="Descrie pas cu pas procesul pe care doresti sa-l optimizezi (Ex: 1. Primesc un email. 2. Copiez datele in Excel...)."></textarea>
+                    <button type="submit">Analizeaza Procesul</button>
+                </form>
+
+                <div id="loading-animation" style="display: none;">
+                    <div class="morphing-brain">🧠</div> <p>Se analizează procesul... Se creează noi conexiuni. Vă rugăm așteptați.</p>
+                </div>
+
+                <section id="rezultate" style="display: none;"></section>
+            </main>
+
+            <footer>
+                <p>&copy; 2025 Catalizatorul de Eficiență</p>
+            </footer>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
