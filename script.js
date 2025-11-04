@@ -98,10 +98,114 @@ document.addEventListener('DOMContentLoaded', () => {
             let errorDetails = error.message;
 
             // Logica îmbunătățită de tratare a erorilor de conexiune și JSON
-            // Incearca sa citeasca corpul raspunsului daca eroarea e legata de JSON parsing sau retea
             if (error.response && typeof error.response.text === 'function') {
                 try {
-                    // Incearca sa citeasca raspunsul ca text simplu
                     errorDetails = await error.response.text();
                     
-                    // Incearca sa parseze mesajul de eroare JSON pe care l-am configurat in
+                    const jsonErr = JSON.parse(errorDetails);
+                    if (jsonErr.error) {
+                        errorDetails = jsonErr.error;
+                    }
+                } catch (e) {
+                    if (error.message.includes('Unexpected end of JSON input')) {
+                        errorDetails = 'Serverul API a răspuns incomplet (Timeout sau eroare internă). Verificați log-urile Backend-ului.';
+                    } else {
+                        errorDetails = error.message;
+                    }
+                }
+            } else if (error.message.includes('Failed to fetch')) {
+                errorDetails = 'Eroare de rețea. Verificați că URL-ul API Backend este corect și că serverul rulează pe Render (status: Available).';
+            }
+
+            alert(`Eroare de conexiune! Detalii: ${errorDetails}`);
+            console.error('Fetch Error:', error);
+            
+            analizaForm.style.opacity = 1;
+        }
+    } // <-- Paranteza lipsa 1: Incheie functia analizeazaProcesul
+
+    // ----------------------------------------------------
+    // 3. Functia de Afisare a Rezultatelor
+    // ----------------------------------------------------
+
+    function afiseazaRezultate(data, procesAnalizat) {
+        loadingAnimation.style.display = 'none';
+        rezultateSection.innerHTML = ''; // Curata rezultatele anterioare
+        rezultateSection.style.display = 'block';
+        
+        // Adauga o intarziere pentru animatia de fade-in
+        setTimeout(() => {
+            rezultateSection.classList.add('is-visible');
+        }, 50);
+
+
+        // Titlul si Rezumatul
+        rezultateSection.innerHTML += `
+            <h2>Rezultate Analiză Automatizări</h2>
+            <div id="proces-analizat-box" class="animate-appear delay-1">
+                <h3>Proces Analizat:</h3>
+                <p>${procesAnalizat}</p>
+            </div>
+            <div class="card animate-appear delay-2">
+                <h4>Analiză Generală</h4>
+                <p>${data.analiza_generala}</p>
+            </div>
+        `;
+
+        // Carduri de Oportunitati
+        rezultateSection.innerHTML += `<h3>Oportunități de Optimizare</h3>`;
+
+        data.oportunitati_optimizare.forEach((op, index) => {
+            rezultateSection.innerHTML += `
+                <div class="card animate-appear delay-${index + 3}">
+                    <h4>Oportunitatea #${index + 1}</h4>
+                    <ul>
+                        <li><strong>Pasul Ineficient:</strong> ${op.pas_proces_original}</li>
+                        <li><strong>Tip Ineficiență:</strong> ${op.tip_ineficienta}</li>
+                        <li><strong>Soluție Recomandată:</strong> ${op.solutie_recomandata}</li>
+                        <li><strong>Instrument Sugerat:</strong> ${op.instrument_sugerat}</li>
+                        <li><strong>Impact Estimativ:</strong> ${op.impact_estimat}</li>
+                    </ul>
+                    
+                    ${op.prompt_cod_relevant && op.prompt_cod_relevant.trim() !== 'N/A' ? 
+                        `
+                        <p><strong>Prompt/Cod Relevant:</strong></p>
+                        <textarea class="prompt-code" readonly>${op.prompt_cod_relevant}</textarea>
+                        <button class="copy-btn" onclick="copiazaCod(this)">Copiază</button>
+                        <div style="clear:both;"></div>
+                        ` : ''
+                    }
+                </div>
+            `;
+        });
+        
+        // Next Steps
+        rezultateSection.innerHTML += `
+            <div class="card animate-appear delay-${data.oportunitati_optimizare.length + 3}">
+                <h4>Următorii Pași</h4>
+                <p>${data.next_steps}</p>
+            </div>
+        `;
+
+        // Activeaza animatiile
+        const resultCards = rezultateSection.querySelectorAll('.animate-appear');
+        resultCards.forEach(el => el.classList.add('is-visible'));
+    }
+
+    // ----------------------------------------------------
+    // 4. Functia de Copiere Cod
+    // ----------------------------------------------------
+
+    window.copiazaCod = function(button) {
+        const textarea = button.previousElementSibling;
+        textarea.select();
+        textarea.setSelectionRange(0, 99999); // Pentru mobile
+        document.execCommand('copy');
+        
+        button.textContent = 'Copiat!';
+        setTimeout(() => {
+            button.textContent = 'Copiază';
+        }, 2000);
+    };
+
+}); // <-- Paranteza lipsa 2: Incheie document.addEventListener('DOMContentLoaded', ...)
