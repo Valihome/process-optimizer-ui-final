@@ -1,6 +1,9 @@
 // script.js
-// URL-ul Backend-ului tău LIVE pe Render
 const API_BASE_URL = 'https://process-optimizer-api.onrender.com';
+
+// Elementele cheie
+const loadingAnimation = document.getElementById('loading-animation');
+const rezultateContainer = document.getElementById('rezultate');
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Initializare Formular si Event Listener
@@ -35,18 +38,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // NOU: 3. Initializare Intersection Observer pentru Animatii
+    // 3. Initializare Intersection Observer pentru Animatii Fade-In
     const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Adauga clasa is-visible cand elementul intra in viewport
                 entry.target.classList.add('is-visible');
-                // Opreste observarea, animatia se face o singura data
                 observer.unobserve(entry.target);
             }
         });
     }, {
-        // Porneste animatia cand 10% din element este vizibil
         threshold: 0.1 
     });
 
@@ -60,9 +60,14 @@ document.addEventListener('DOMContentLoaded', () => {
  * Trimite descrierea procesului și domeniul către API-ul Backend.
  */
 function trimitePentruAnaliza(domeniu, procesText) {
-    const rezultateContainer = document.getElementById('rezultate');
-    rezultateContainer.innerHTML = '<h2>Se analizeaza procesul... Va rugam asteptati.</h2>'; 
-
+    
+    // NOU: Etapa 1 - Incepe Animatia si Ascunde Rezultatele
+    rezultateContainer.classList.remove('is-visible');
+    rezultateContainer.innerHTML = '';
+    
+    loadingAnimation.style.display = 'block';
+    loadingAnimation.classList.add('is-visible'); 
+    
     const apiEndpoint = `${API_BASE_URL}/api/analyze`; 
 
     fetch(apiEndpoint, {
@@ -82,11 +87,16 @@ function trimitePentruAnaliza(domeniu, procesText) {
         return response.json();
     })
     .then(data => {
+        // NOU: Etapa 2 - Afiseaza Rezultatele
         afiseazaRezultatele(data); 
     })
     .catch(error => {
-        console.error('Eroare la trimiterea datelor sau la procesare:', error);
+        // NOU: Etapa 2b - Afiseaza Eroarea
+        loadingAnimation.classList.remove('is-visible');
+        loadingAnimation.style.display = 'none';
+        
         rezultateContainer.innerHTML = `<h2 class="error">Eroare de conexiune!</h2><p>Nu s-a putut finaliza cererea catre API. Detalii: ${error.message}</p>`;
+        rezultateContainer.classList.add('is-visible'); 
     });
 }
 
@@ -94,71 +104,76 @@ function trimitePentruAnaliza(domeniu, procesText) {
  * Prelucrează și afișează datele JSON primite de la Backend.
  */
 function afiseazaRezultatele(data) {
-    const rezultateContainer = document.getElementById('rezultate');
-    rezultateContainer.innerHTML = ''; 
-
-    if (data.error) {
-        rezultateContainer.innerHTML = `<h2 class="error">Eroare de analiza:</h2><p>${data.error}</p>`;
-        return;
-    }
-
-    // 1. Analiza Generala
-    let htmlContent = `
-        <h2 style="color: var(--primary-color);">Analiza Generala</h2>
-        <p style="font-style: italic; border-left: 3px solid var(--primary-color); padding-left: 10px;">${data.analiza_generala}</p>
-        <hr style="margin-top: 40px; border-color: var(--border-color);">
-        <h3 style="color: var(--text-color);">Oportunitati de Optimizare</h3>
-    `;
+    // NOU: Etapa 3 - Ascunde Animatia si Afiseaza Continutul Nou
+    loadingAnimation.classList.remove('is-visible');
     
-    // 2. Oportunitatile de Optimizare
-    if (data.oportunitati_optimizare && data.oportunitati_optimizare.length > 0) {
-        data.oportunitati_optimizare.forEach((oportunitate, index) => {
-            const safePrompt = oportunitate.prompt_cod_relevant.replace(/"/g, '&quot;');
-            
-            // Atentie: Adaugam clasa 'card' pentru a beneficia de animatii
-            htmlContent += `
-                <div class="card"> 
-                    <h4>${index + 1}. Pas original: **${oportunitate.pas_proces_original}**</h4>
-                    <ul>
-                        <li><strong>Ineficienta:</strong> ${oportunitate.tip_ineficienta}</li>
-                        <li><strong>Impact Estim.:</strong> ${oportunitate.impact_estimat}</li>
-                        <li><strong>Solutie Recomandata:</strong> ${oportunitate.solutie_recomandata} (Instrument: <strong>${oportunitate.instrument_sugerat}</strong>)</li>
-                    </ul>
-                    
-                    <h5 style="margin-top: 20px; color: var(--highlight-color);">Cod/Prompt Sugerat</h5>
-                    <textarea readonly class="prompt-code">${oportunitate.prompt_cod_relevant}</textarea>
+    // Asteapta ca animatia de fade-out a loading-ului sa se termine
+    setTimeout(() => {
+        loadingAnimation.style.display = 'none';
+        
+        rezultateContainer.innerHTML = ''; 
 
-                    <button class="copy-btn" data-code="${safePrompt}">Copiaza Codul</button>
-                </div>
-            `;
+        if (data.error) {
+            rezultateContainer.innerHTML = `<h2 class="error">Eroare de analiza:</h2><p>${data.error}</p>`;
+            rezultateContainer.classList.add('is-visible');
+            return;
+        }
+
+        let htmlContent = `
+            <h2 style="color: var(--primary-color);">Analiza Generala</h2>
+            <p style="font-style: italic; border-left: 3px solid var(--primary-color); padding-left: 10px;">${data.analiza_generala}</p>
+            <hr style="margin-top: 40px; border-color: var(--border-color);">
+            <h3 style="color: var(--text-color);">Oportunitati de Optimizare</h3>
+        `;
+        
+        if (data.oportunitati_optimizare && data.oportunitati_optimizare.length > 0) {
+            data.oportunitati_optimizare.forEach((oportunitate, index) => {
+                const safePrompt = oportunitate.prompt_cod_relevant.replace(/"/g, '&quot;');
+                
+                htmlContent += `
+                    <div class="card"> 
+                        <h4>${index + 1}. Pas original: **${oportunitate.pas_proces_original}**</h4>
+                        <ul>
+                            <li><strong>Ineficienta:</strong> ${oportunitate.tip_ineficienta}</li>
+                            <li><strong>Impact Estim.:</strong> ${oportunitate.impact_estimat}</li>
+                            <li><strong>Solutie Recomandata:</strong> ${oportunitate.solutie_recomandata} (Instrument: <strong>${oportunitate.instrument_sugerat}</strong>)</li>
+                        </ul>
+                        
+                        <h5 style="margin-top: 20px; color: var(--highlight-color);">Cod/Prompt Sugerat</h5>
+                        <textarea readonly class="prompt-code">${oportunitate.prompt_cod_relevant}</textarea>
+
+                        <button class="copy-btn" data-code="${safePrompt}">Copiaza Codul</button>
+                    </div>
+                `;
+            });
+        } else {
+            htmlContent += '<p>Nu au fost identificate oportunitati clare de optimizare.</p>';
+        }
+
+        htmlContent += `
+            <hr style="margin-top: 40px; border-color: var(--border-color);">
+            <h3 style="color: var(--secondary-color);">Pasi Urmatori</h3>
+            <p>${data.next_steps}</p>
+        `;
+
+        rezultateContainer.innerHTML = htmlContent;
+        rezultateContainer.classList.add('is-visible'); // Declanseaza animatia de aparitie
+        
+        // Observa noile carduri generate pentru a le anima
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
         });
-    } else {
-         htmlContent += '<p>Nu au fost identificate oportunitati clare de optimizare.</p>';
-    }
 
-    // 3. Finalizarea si pasii urmatori
-    htmlContent += `
-        <hr style="margin-top: 40px; border-color: var(--border-color);">
-        <h3 style="color: var(--secondary-color);">Pasi Urmatori</h3>
-        <p>${data.next_steps}</p>
-    `;
-
-    rezultateContainer.innerHTML = htmlContent;
-
-    // NOU: Observa noile carduri generate pentru a le anima
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // Adauga clasa is-visible pentru a declansa animatia
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target);
-            }
+        document.querySelectorAll('#rezultate .card').forEach(card => {
+            observer.observe(card);
         });
-    }, {
-        threshold: 0.1
-    });
 
-    document.querySelectorAll('#rezultate .card').forEach(card => {
-        observer.observe(card);
-    });
+    }, 500); // Asteapta 500ms pentru a simula tranzitia fluida
 }
