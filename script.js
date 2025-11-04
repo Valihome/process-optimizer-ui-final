@@ -1,6 +1,5 @@
 // script.js
-// ATENTIE: Inlocuieste cu URL-ul tau real (https://process-optimizer-api.onrender.com) daca este diferit
-const API_BASE_URL = 'https://process-optimizer-ui-final.onrender.com';
+const API_BASE_URL = 'https://process-optimizer-ui-final.onrender.com/';
 
 // Elementele cheie
 const loadingAnimation = document.getElementById('loading-animation');
@@ -129,6 +128,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /**
  * Trimite descrierea procesului și domeniul către API-ul Backend.
+ * NOTA: Aceasta functie trebuie sa fie definita in afara DOMContentLoaded
+ * pentru a evita eroarea "is not defined" daca este apelata din interior.
  */
 function trimitePentruAnaliza(domeniu, procesText) {
     // Ascunde formularul si afiseaza animatia de loading
@@ -164,6 +165,7 @@ function trimitePentruAnaliza(domeniu, procesText) {
         return response.json();
     })
     .then(data => {
+        // Apelam functia de afisare a rezultatelor (definitia ei se afla mai jos)
         afiseazaRezultatele(data); 
     })
     .catch(error => {
@@ -183,6 +185,7 @@ function trimitePentruAnaliza(domeniu, procesText) {
 
 /**
  * Prelucrează și afișează datele JSON primite de la Backend.
+ * NOTA: Aceasta functie trebuie sa fie definita in afara DOMContentLoaded.
  */
 function afiseazaRezultatele(data) {
     // Ascunde animatia de loading
