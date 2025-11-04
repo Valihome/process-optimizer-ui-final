@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     setupIntroAnimation(); 
 
-    // 2. Gestionarea Butonului de Start (Tranzitie Intro -> Aplicatie)
+    // 2. Gestionarea Butonului de Start (Tranzitie Intro -> Aplicatie) 
     document.getElementById('start-app-button').addEventListener('click', () => {
         introScreen.style.opacity = '0';
         
