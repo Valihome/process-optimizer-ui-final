@@ -6,79 +6,47 @@
     <title>Eficienta Digitala ✨</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="initial-hidden">
-    
-    <div id="page-content">
-        <section id="intro-screen">
-            <h1 class="intro-title animate-intro-h1">Eficienta Digitala</h1>
+<body>
+    <header>
+        <h1 class="centered-title">Eficienta Digitala ✨</h1>
+        <p class="subtitle">Analizeaza un proces pentru a gasi oportunitati de automatizare.</p>
+    </header>
+
+    <main>
+        <form id="analiza-form">
+            <select id="domeniu-select">
+                <option value="">-- Alege Domeniul Procesului (Expertiza) --</option>
+                <option value="IT (Dezvoltare Software)">IT (Dezvoltare Software)</option>
+                <option value="IT (Suport Tehnic/Helpdesk)">IT (Suport Tehnic/Helpdesk)</option>
+                <option value="IT (Securitate Cibernetica)">IT (Securitate Cibernetica)</option>
+                <option value="Resurse Umane (Recrutare si Onboarding)">Resurse Umane (Recrutare si Onboarding)</option>
+                <option value="Resurse Umane (Administrare Salarizare)">Resurse Umane (Administrare Salarizare)</option>
+                <option value="Resurse Umane (Training si Performanta)">Resurse Umane (Training si Performanta)</option>
+                <option value="Financiar (Contabilitate si Facturare)">Financiar (Contabilitate si Facturare)</option>
+                <option value="Financiar (Analiza Bugetara si Raportare)">Financiar (Analiza Bugetara si Raportare)</option>
+                <option value="Financiar (Trezorerie si Plati)">Financiar (Trezorerie si Plati)</option>
+                <option value="Logistica (Gestiunea Stocurilor)">Logistica (Gestiunea Stocurilor)</option>
+                <option value="Logistica (Lantul de Aprovizionare/Supply Chain)">Logistica (Lantul de Aprovizionare/Supply Chain)</option>
+                <option value="Vanzari (Procesare Comenzi)">Vanzari (Procesare Comenzi)</option>
+                <option value="Vanzari (Managementul Lead-urilor/CRM)">Vanzari (Managementul Lead-urilor/CRM)</option>
+                <option value="Servicii Clienti (Ticketing si Suport)">Servicii Clienti (Ticketing si Suport)</option>
+                <option value="Administrativ (Gestiunea Documentelor)">Administrativ (Gestiunea Documentelor)</option>
+                <option value="General/Altele">General/Altele</option>
+            </select>
             
-            <div class="intro-text-container">
-                <p class="animate-intro-p delay-1">Traim intr-o era a vitezei si a datelor, insa multe companii raman blocate in rutine ineficiente.</p>
-                
-                <p class="animate-intro-p delay-2">Procesele zilnice, de la introducerea manuala a datelor pana la aprobarile birocratice, nu doar ca <strong>irosesc timp si resurse pretioase</strong>, dar sufoca si inovatia. Ai simtit vreodata ca echipa ta petrece mai mult timp <em>gestionand</em> munca decat <em>creand</em> valoare?</p>
-                
-                <p class="animate-intro-p delay-3">Aceasta platforma este raspunsul. Ea nu este doar un instrument de analiza; este un <strong>catalizator pentru transformarea digitala</strong>.</p>
-                
-                <p class="animate-intro-p delay-4">Pur si simplu descrie un proces, oricat de complex ar fi. Motorul de analiza va examina fiecare pas pentru a identifica instantaneu blocajele, redundantele si punctele de <strong>risipa de timp</strong>.</p>
-                
-                <p class="animate-intro-p delay-5">Vei primi <strong>solutii actionabile</strong>, nu doar o lista de probleme. Prin eliminarea sarcinilor repetitive si reducerea erorilor, poti elibera echipele sa se concentreze pe strategii de crestere, imbunatatind <strong>productivitatea generala</strong>.</p>
-                
-                <p class="animate-intro-p delay-6 cta-final">Inceteaza sa lucrezi <em>in</em> procese vechi si incepe sa lucrezi <em>la</em> ele.</p>
-                
-                <button id="start-app-button" class="intro-button animate-intro-p delay-7">Incepe Analiza</button>
-            </div>
+            <textarea id="proces-input" rows="10" placeholder="Descrie pas cu pas procesul pe care doresti sa-l optimizezi (Ex: 1. Primesc un email. 2. Copiez datele in Excel...)."></textarea>
+            <button type="submit">Analizeaza Procesul</button>
+        </form>
+
+        <section id="rezultate">
+            <h2>Rezultatele analizei vor aparea aici.</h2>
         </section>
+    </main>
+    
+    <footer>
+        <p class="copyright-note">&copy; 2025 Eficienta Digitala</p>
+    </footer>
 
-        <div id="app-content" style="opacity: 0; display: none;">
-            
-            <header>
-                <h1>Eficienta Digitala <span class="sparkle">✨</span></h1>
-                <p>Analizeaza un proces pentru a gasi oportunitati de automatizare.</p>
-            </header>
-            
-            <main>
-                <form id="analiza-form">
-                    <select id="domeniu-select">
-                        <option value="">-- Alege Domeniul Procesului (Expertiza) --</option>
-                        <option value="IT (Dezvoltare Software)">IT (Dezvoltare Software)</option>
-                        <option value="IT (Suport Tehnic/Helpdesk)">IT (Suport Tehnic/Helpdesk)</option>
-                        <option value="IT (Securitate Cibernetica)">IT (Securitate Cibernetica)</option>
-                        <option value="Resurse Umane (Recrutare si Onboarding)">Resurse Umane (Recrutare si Onboarding)</option>
-                        <option value="Resurse Umane (Administrare Salarizare)">Resurse Umane (Administrare Salarizare)</option>
-                        <option value="Resurse Umane (Training si Performanta)">Resurse Umane (Training si Performanta)</option>
-                        <option value="Financiar (Contabilitate si Facturare)">Financiar (Contabilitate si Facturare)</option>
-                        <option value="Financiar (Analiza Bugetara si Raportare)">Financiar (Analiza Bugetara si Raportare)</option>
-                        <option value="Financiar (Trezorerie si Plati)">Financiar (Trezorerie si Plati)</option>
-                        <option value="Logistica (Gestiunea Stocurilor)">Logistica (Gestiunea Stocurilor)</option>
-                        <option value="Logistica (Lantul de Aprovizionare/Supply Chain)">Logistica (Lantul de Aprovizionare/Supply Chain)</option>
-                        <option value="Achizitii (Aprovizionare si Furnizori)">Achizitii (Aprovizionare si Furnizori)</option>
-                        <option value="Vanzari (Procesare Comenzi)">Vanzari (Procesare Comenzi)</option>
-                        <option value="Vanzari (Managementul Lead-urilor/CRM)">Vanzari (Managementul Lead-urilor/CRM)</option>
-                        <option value="Servicii Clienti (Ticketing si Suport)">Servicii Clienti (Ticketing si Suport)</option>
-                        <option value="Administrativ (Gestiunea Documentelor)">Administrativ (Gestiunea Documentelor)</option>
-                        <option value="General/Altele">General/Altele</option>
-                    </select>
-                    
-                    <textarea id="proces-input" rows="10" placeholder="Descrie pas cu pas procesul pe care doresti sa-l optimizezi (Ex: 1. Primesc un email. 2. Copiez datele in Excel...)."></textarea>
-                    <button type="submit">Analizeaza Procesul</button>
-                </form>
-
-                <div class="disclaimer-box">
-                    <p><strong>Nota de Confidentialitate:</strong> Nu folositi date personale, nume reale de companii sau informatii clasificate/confidentiale in descrierea procesului. Folositi denumiri generice pentru a proteja securitatea datelor.</p>
-                </div>
-
-                <div id="loading-animation" style="display: none;">
-                    <div class="morphing-brain">🧠</div> <p>Se analizeaza procesul... Se creeaza noi conexiuni. Va rugam asteptati.</p>
-                </div>
-
-                <section id="rezultate" style="display: none;"></section>
-            </main>
-
-            <footer>
-                <p>&copy; 2025 Eficienta Digitala</p>
-            </footer>
-        </div>
-    </div>
     <script src="script.js"></script>
 </body>
 </html>
