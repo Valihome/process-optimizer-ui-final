@@ -48,8 +48,15 @@
                     <option value="Vanzari (Procesare Comenzi)">Vanzari (Procesare Comenzi)</option>
                 </select>
                 
-                <textarea id="proces-input" rows="10" placeholder="Descrie pas cu pas procesul pe care doresti sa-l optimizezi (Ex: 1. Primesc un email. 2. Copiez datele in Excel...)."></textarea>
-                <button type="submit">Analizeaza Procesul</button>
+                <span class="step-example">
+                    **Exemplu de descriere:** 1. Primesc un email nou de la Clientul X. 
+                    2. Descarc fișierul PDF atașat. 
+                    3. Copiez manual datele din PDF în sistemul CRM. 
+                    4. Trimit o notificare prin Slack echipei de Vanzari.
+                </span>
+
+                <textarea id="proces-input" rows="10" placeholder="Descrie pas cu pas procesul pe care doresti sa-l optimizezi..."></textarea>
+                <button type="submit" id="submit-analysis-btn">Analizeaza Procesul</button>
             </form>
 
             <aside id="disclaimer-note">
