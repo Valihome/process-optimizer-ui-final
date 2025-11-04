@@ -6,51 +6,51 @@
     <title>Process Optimizer AI ✨</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <header>
-        <h1>Process Optimizer AI ✨</h1>
-        <p>Analizeaza un proces pentru a gasi oportunitati de automatizare.</p>
-    </header>
+<body class="initial-hidden">
+    <div id="page-content">
+        <header>
+            <h1 class="animate-appear">Process Optimizer AI <span class="sparkle">✨</span></h1>
+            <p class="animate-appear delay-1">Analizeaza un proces pentru a gasi oportunitati de automatizare.</p>
+        </header>
 
-    <main class="fade-in-section"> 
-        <form id="analiza-form" class="fade-in-section">
-            <select id="domeniu-select" style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 6px; font-size: 16px;">
-                <option value="">-- Alege Domeniul Procesului (Expertiza) --</option>
-                <option value="IT (Dezvoltare Software)">IT (Dezvoltare Software)</option>
-                <option value="IT (Suport Tehnic/Helpdesk)">IT (Suport Tehnic/Helpdesk)</option>
-                <option value="IT (Securitate Cibernetica)">IT (Securitate Cibernetica)</option>
-                <option value="Resurse Umane (Recrutare si Onboarding)">Resurse Umane (Recrutare si Onboarding)</option>
-                <option value="Resurse Umane (Administrare Salarizare)">Resurse Umane (Administrare Salarizare)</option>
-                <option value="Resurse Umane (Training si Performanta)">Resurse Umane (Training si Performanta)</option>
-                <option value="Financiar (Contabilitate si Facturare)">Financiar (Contabilitate si Facturare)</option>
-                <option value="Financiar (Analiza Bugetara si Raportare)">Financiar (Analiza Bugetara si Raportare)</option>
-                <option value="Financiar (Trezorerie si Plati)">Financiar (Trezorerie si Plati)</option>
-                <option value="Logistica (Gestiunea Stocurilor)">Logistica (Gestiunea Stocurilor)</option>
-                <option value="Logistica (Lantul de Aprovizionare/Supply Chain)">Logistica (Lantul de Aprovizionare/Supply Chain)</option>
-                <option value="Vanzari (Procesare Comenzi)">Vanzari (Procesare Comenzi)</option>
-                <option value="Vanzari (Managementul Lead-urilor/CRM)">Vanzari (Managementul Lead-urilor/CRM)</option>
-                <option value="Servicii Clienti (Ticketing si Suport)">Servicii Clienti (Ticketing si Suport)</option>
-                <option value="Administrativ (Gestiunea Documentelor)">Administrativ (Gestiunea Documentelor)</option>
-                <option value="General/Altele">General/Altele</option>
-            </select>
-            
-            <textarea id="proces-input" rows="10" placeholder="Descrie pas cu pas procesul pe care doresti sa-l optimizezi (Ex: 1. Primesc un email. 2. Copiez datele in Excel...)."></textarea>
-            <button type="submit">Analizeaza Procesul</button>
-        </form>
+        <main>
+            <form id="analiza-form" class="animate-appear delay-2">
+                <select id="domeniu-select">
+                    <option value="">-- Alege Domeniul Procesului (Expertiza) --</option>
+                    <option value="IT (Dezvoltare Software)">IT (Dezvoltare Software)</option>
+                    <option value="IT (Suport Tehnic/Helpdesk)">IT (Suport Tehnic/Helpdesk)</option>
+                    <option value="IT (Securitate Cibernetica)">IT (Securitate Cibernetica)</option>
+                    <option value="Resurse Umane (Recrutare si Onboarding)">Resurse Umane (Recrutare si Onboarding)</option>
+                    <option value="Resurse Umane (Administrare Salarizare)">Resurse Umane (Administrare Salarizare)</option>
+                    <option value="Resurse Umane (Training si Performanta)">Resurse Umane (Training si Performanta)</option>
+                    <option value="Financiar (Contabilitate si Facturare)">Financiar (Contabilitate si Facturare)</option>
+                    <option value="Financiar (Analiza Bugetara si Raportare)">Financiar (Analiza Bugetara si Raportare)</option>
+                    <option value="Financiar (Trezorerie si Plati)">Financiar (Trezorerie si Plati)</option>
+                    <option value="Logistica (Gestiunea Stocurilor)">Logistica (Gestiunea Stocurilor)</option>
+                    <option value="Logistica (Lantul de Aprovizionare/Supply Chain)">Logistica (Lantul de Aprovizionare/Supply Chain)</option>
+                    <option value="Vanzari (Procesare Comenzi)">Vanzari (Procesare Comenzi)</option>
+                    <option value="Vanzari (Managementul Lead-urilor/CRM)">Vanzari (Managementul Lead-urilor/CRM)</option>
+                    <option value="Servicii Clienti (Ticketing si Suport)">Servicii Clienti (Ticketing si Suport)</option>
+                    <option value="Administrativ (Gestiunea Documentelor)">Administrativ (Gestiunea Documentelor)</option>
+                    <option value="General/Altele">General/Altele</option>
+                </select>
+                
+                <textarea id="proces-input" rows="10" placeholder="Descrie pas cu pas procesul pe care doresti sa-l optimizezi (Ex: 1. Primesc un email. 2. Copiez datele in Excel...)."></textarea>
+                <button type="submit">Analizeaza Procesul</button>
+            </form>
 
-        <div id="loading-animation" style="display: none;" class="fade-in-section">
-            <div class="morphing-brain">🧠</div> <p>Se analizează procesul... Se creează legături neuronale. Vă rugăm așteptați.</p>
-        </div>
+            <div id="loading-animation" style="display: none;">
+                <div class="morphing-brain">🧠</div> <p>Se analizează procesul... Se creează legături neuronale. Vă rugăm așteptați.</p>
+            </div>
 
-        <section id="rezultate" class="fade-in-section">
-            <h2>Rezultatele analizei vor aparea aici.</h2>
-        </section>
-    </main>
+            <section id="rezultate" style="display: none;">
+                </section>
+        </main>
 
-    <footer>
-        <p>&copy; 2025 Process Optimization App</p>
-    </footer>
-
+        <footer>
+            <p>&copy; 2025 Process Optimization App</p>
+        </footer>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
