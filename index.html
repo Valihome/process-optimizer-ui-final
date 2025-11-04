@@ -9,47 +9,57 @@
 <body>
     <header>
         <h1 class="centered-title">Eficienta Digitala ✨</h1>
-        <p class="subtitle">Analizeaza un proces pentru a gasi oportunitati de automatizare.</p>
+        <p class="subtitle">Analizeaza procese pentru a gasi oportunitati de automatizare.</p>
     </header>
 
     <main>
         <section id="intro">
-            <h2>Bun venit!</h2>
-            <p>Aceasta aplicatie utilizeaza inteligenta artificiala specializata in automatizare (RPA, Low-Code, API Integration) pentru a analiza pas cu pas orice proces descris de tine. Rolul sau este de a identifica ineficientele si de a genera solutii concrete, adaptate domeniului tau de activitate.</p>
-            <p><strong>Alege domeniul si descrie procesul pentru a incepe!</strong></p>
+            <h2>Eficiența Digitală: De la Proces la Performanță</h2>
+            <p>Bine ați venit la <strong>Eficienta Digitala</strong>, instrumentul dumneavoastră personal de analiză și optimizare a proceselor, alimentat de inteligența artificială de vârf. În mediul de afaceri actual, viteza și precizia sunt esențiale. Aplicația noastră a fost concepută pentru a transforma modul în care abordați sarcinile zilnice, mutând focalizarea de la munca repetitivă la cea strategică.</p>
+            
+            <h3>Cum Funcționează Expertiza AI?</h3>
+            <p>Ceea ce diferențiază Eficienta Digitala este abilitatea sa de a acționa ca un <strong>expert consultativ specializat</strong>. Când introduceți descrierea procesului, selectați un domeniu de expertiză — fie că este Recrutare HR, Contabilitate și Facturare, sau Dezvoltare Software. Modelul AI Gemini analizează apoi procesul prin prisma celor mai bune practici din industria respectivă.</p>
+            <p>Rezultatul nu este doar o listă de sugestii vagi. Veți primi o analiză structurată care include: identificarea exactă a pașilor care pot fi optimizați, estimarea impactului (timp salvat, erori reduse), recomandări de soluții tehnologice (RPA, API, Low-Code), sugestii de instrumente și chiar prompt-uri sau snippet-uri de cod pentru a demara implementarea rapidă.</p>
+            
+            <p><strong>Sunteți gata să începeți?</strong></p>
+            <button id="start-analysis-btn">Începe Analiza Procesului</button>
         </section>
 
-        <form id="analiza-form">
-            <select id="domeniu-select">
-                <option value="">-- Alege Domeniul Procesului (Expertiza) --</option>
-                <option value="IT (Dezvoltare Software)">IT (Dezvoltare Software)</option>
-                <option value="IT (Suport Tehnic/Helpdesk)">IT (Suport Tehnic/Helpdesk)</option>
-                <option value="IT (Securitate Cibernetica)">IT (Securitate Cibernetica)</option>
-                <option value="Resurse Umane (Recrutare si Onboarding)">Resurse Umane (Recrutare si Onboarding)</option>
-                <option value="Resurse Umane (Administrare Salarizare)">Resurse Umane (Administrare Salarizare)</option>
-                <option value="Resurse Umane (Training si Performanta)">Resurse Umane (Training si Performanta)</option>
-                <option value="Financiar (Contabilitate si Facturare)">Financiar (Contabilitate si Facturare)</option>
-                <option value="Financiar (Analiza Bugetara si Raportare)">Financiar (Analiza Bugetara si Raportare)</option>
-                <option value="Financiar (Trezorerie si Plati)">Financiar (Trezorerie si Plati)</option>
-                <option value="Logistica (Gestiunea Stocurilor)">Logistica (Gestiunea Stocurilor)</option>
-                <option value="Logistica (Lantul de Aprovizionare/Supply Chain)">Logistica (Lantul de Aprovizionare/Supply Chain)</option>
-                <option value="Vanzari (Procesare Comenzi)">Vanzari (Procesare Comenzi)</option>
-                <option value="Vanzari (Managementul Lead-urilor/CRM)">Vanzari (Managementul Lead-urilor/CRM)</option>
-                <option value="Servicii Clienti (Ticketing si Suport)">Servicii Clienti (Ticketing si Suport)</option>
-                <option value="Administrativ (Gestiunea Documentelor)">Administrativ (Gestiunea Documentelor)</option>
-                <option value="General/Altele">General/Altele</option>
-            </select>
-            
-            <textarea id="proces-input" rows="10" placeholder="Descrie pas cu pas procesul pe care doresti sa-l optimizezi (Ex: 1. Primesc un email. 2. Copiez datele in Excel...)."></textarea>
-            <button type="submit">Analizeaza Procesul</button>
-        </form>
 
-        <aside id="disclaimer-note">
-            <h4>Notă de Utilizare</h4>
-            <p><strong>Nu folositi date personale</strong>, nume reale de companii sau informatii clasificate/confidentiale in descrierea procesului. Folositi denumiri generice pentru a proteja securitatea datelor. Aceasta este o analiza bazata pe AI, nu o consultanta juridica sau financiara.</p>
-        </aside>
+        <div id="analysis-content" style="display: none;">
+            <form id="analiza-form">
+                <select id="domeniu-select">
+                    <option value="">-- Alege Domeniul Procesului (Expertiza) --</option>
+                    <option value="IT (Dezvoltare Software)">IT (Dezvoltare Software)</option>
+                    <option value="IT (Suport Tehnic/Helpdesk)">IT (Suport Tehnic/Helpdesk)</option>
+                    <option value="IT (Securitate Cibernetica)">IT (Securitate Cibernetica)</option>
+                    <option value="Resurse Umane (Recrutare si Onboarding)">Resurse Umane (Recrutare si Onboarding)</option>
+                    <option value="Resurse Umane (Administrare Salarizare)">Resurse Umane (Administrare Salarizare)</option>
+                    <option value="Resurse Umane (Training si Performanta)">Resurse Umane (Training si Performanta)</option>
+                    <option value="Financiar (Contabilitate si Facturare)">Financiar (Contabilitate si Facturare)</option>
+                    <option value="Financiar (Analiza Bugetara si Raportare)">Financiar (Analiza Bugetara si Raportare)</option>
+                    <option value="Financiar (Trezorerie si Plati)">Financiar (Trezorerie si Plati)</option>
+                    <option value="Logistica (Gestiunea Stocurilor)">Logistica (Gestiunea Stocurilor)</option>
+                    <option value="Logistica (Lantul de Aprovizionare/Supply Chain)">Logistica (Lantul de Aprovizionare/Supply Chain)</option>
+                    <option value="Vanzari (Procesare Comenzi)">Vanzari (Procesare Comenzi)</option>
+                    <option value="Vanzari (Managementul Lead-urilor/CRM)">Vanzari (Managementul Lead-urilor/CRM)</option>
+                    <option value="Servicii Clienti (Ticketing si Suport)">Servicii Clienti (Ticketing si Suport)</option>
+                    <option value="Administrativ (Gestiunea Documentelor)">Administrativ (Gestiunea Documentelor)</option>
+                    <option value="General/Altele">General/Altele</option>
+                </select>
+                
+                <textarea id="proces-input" rows="10" placeholder="Descrie pas cu pas procesul pe care doresti sa-l optimizezi (Ex: 1. Primesc un email. 2. Copiez datele in Excel...)."></textarea>
+                <button type="submit">Analizeaza Procesul</button>
+            </form>
 
-        <section id="rezultate">
+            <aside id="disclaimer-note">
+                <h4>Notă de Utilizare</h4>
+                <p><strong>Nu folositi date personale</strong>, nume reale de companii sau informatii clasificate/confidentiale in descrierea procesului. Folositi denumiri generice pentru a proteja securitatea datelor. Aceasta este o analiza bazata pe AI, nu o consultanta juridica sau financiara.</p>
+            </aside>
+        </div>
+
+
+        <section id="rezultate" style="display: none;">
             <h2>Rezultatele analizei vor aparea aici.</h2>
         </section>
     </main>
