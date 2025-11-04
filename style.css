@@ -26,27 +26,32 @@ body {
     align-items: center; /* Centrare elemente pe orizontala */
 }
 
-/* Antetul Pagină (Header) - Centrat */
+/* Antetul Pagină (Header) - Stil Elegant & Centrat */
 header {
-    background-color: var(--card-background);
+    background-color: #0d0d0d; /* Negru pur */
     color: var(--text-color);
     padding: 40px 20px 20px 20px;
     text-align: center;
-    box-shadow: var(--shadow);
-    border-bottom: 3px solid var(--primary-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Umbra subtila */
+    border-bottom: 3px solid #6c757d; /* Linie subtila gri */
     width: 100%;
     box-sizing: border-box;
+    transition: opacity 0.3s ease-out; /* Tranzitie pentru ascundere */
 }
 
 header h1 {
-    color: var(--primary-color);
+    color: var(--primary-color); 
     margin: 0;
     font-size: 2.5em;
+    font-weight: 300; /* Font mai subțire */
+    letter-spacing: 2px; /* Spațiere pentru efect premium */
 }
 
 header p.subtitle {
     margin: 10px auto 0 auto;
-    font-size: 1.1em;
+    font-size: 1em; 
+    color: #a0a0a0; /* Culoare gri moale */
+    font-style: italic;
 }
 
 /* Conținutul Principal (Main) - Container Centrat */
@@ -69,10 +74,16 @@ main {
     text-align: center;
 }
 
-#intro h2 {
+#intro h2, #intro h3 {
     color: var(--primary-color);
     margin-top: 0;
+}
+
+#intro h2 {
     font-size: 1.8em;
+}
+#intro h3 {
+    font-size: 1.4em;
 }
 
 #intro p {
