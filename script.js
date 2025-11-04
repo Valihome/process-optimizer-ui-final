@@ -1,4 +1,5 @@
 // script.js
+// ATENTIE: Inlocuieste cu URL-ul tau real (https://process-optimizer-api.onrender.com) daca este diferit
 const API_BASE_URL = 'https://process-optimizer-api.onrender.com';
 
 // Elementele cheie
@@ -16,7 +17,7 @@ let currentProcessText = '';
 // Functie utilitara pentru a repara formatarea Markdown (elimina ** si le inlocuieste cu <strong>)
 function formatMarkdown(text) {
     if (typeof text !== 'string') return text;
-    // Inlocuieste **text** cu <strong>text</strong> (ignora spatiile albe din jurul continutului)
+    // Inlocuieste **text** cu <strong>text</strong>
     return text.replace(/\*\*\s*(.*?)\s*\*\*/g, '<strong>$1</strong>');
 }
 
@@ -27,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 1. Initializare Animatii Text Intro
     function setupIntroAnimation() {
+        // Observator pentru a declansa animatiile la aparitia in viewport
         const observerCallback = (entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -56,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Fortam aparitia headerului si formularului
             setupAppContentAnimation(); 
-        }, 1000); 
+        }, 1000); // 1s pentru animatia de fade-out
     });
 
 
@@ -64,23 +66,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // II. LOGICA APLICATIEI SI ANIMATII
     // ----------------------------------------------------
 
-    // 1. Functie pentru animatiile formularului/headerului - SIMPLIFICATA
+    // 1. Functie pentru animatiile formularului/headerului
     function setupAppContentAnimation() {
-        // Aplicam clasa de animatie elementelor principale
         header.classList.add('initial-app-elements');
         analizaForm.classList.add('initial-app-elements');
 
         // Pornim animatia secventiala
-        
-        // Elementul 1: Header
         setTimeout(() => {
             header.classList.add('is-visible');
         }, 100); 
 
-        // Elementul 2: Formularul
         setTimeout(() => {
             analizaForm.classList.add('is-visible');
-        }, 400); // Intarziere suficienta pentru efectul de slide
+        }, 400); 
     }
     
     // 2. Initializare Formular si Event Listener 
@@ -123,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 analizaForm.classList.add('is-visible'); 
                 procesInput.value = ''; 
                 window.scrollTo({ top: 0, behavior: 'smooth' }); 
-            }, 600);
+            }, 600); // Asteapta fade-out-ul rezultatelor
         }
     });
 
@@ -158,7 +156,7 @@ function trimitePentruAnaliza(domeniu, procesText) {
     })
     .then(response => {
         if (!response.ok) {
-            // Include erorile 4xx și 5xx
+            // Citeste mesajul de eroare din corpul raspunsului
             return response.json().then(errorData => {
                  throw new Error(errorData.error || `Eroare HTTP la apelarea API-ului: ${response.status} ${response.statusText}`);
             });
@@ -201,7 +199,6 @@ function afiseazaRezultatele(data) {
             return;
         }
 
-        // Am aplicat formatMarkdown pe toate campurile relevante
         let htmlContent = `
             <div id="proces-analizat-box" class="animate-appear delay-1">
                 <h3>Procesul Analizat</h3>
@@ -214,7 +211,7 @@ function afiseazaRezultatele(data) {
             <h3 class="animate-appear delay-5" style="color: var(--text-color);">Oportunități de Optimizare</h3>
         `;
         
-        let baseDelay = 6; // Intarziere de baza pentru carduri
+        let baseDelay = 6; 
         
         if (data.oportunitati_optimizare && data.oportunitati_optimizare.length > 0) {
             data.oportunitati_optimizare.forEach((oportunitate, index) => {
