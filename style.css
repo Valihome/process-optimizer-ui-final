@@ -81,6 +81,21 @@ footer {
     margin-top: auto; /* Impinge footer-ul jos */
 }
 
+/* Stiluri pentru Disclaimer (NOU) */
+.disclaimer-box {
+    background-color: #38311d; /* Fundal inchis, usor galbui */
+    color: #ffd700; /* Text galben pentru avertisment */
+    padding: 15px;
+    border-radius: 6px;
+    margin-top: 20px;
+    border: 1px solid #6b5c2a;
+    font-size: 0.9em;
+}
+
+.disclaimer-box strong {
+    color: #ffeb3b;
+}
+
 /* Formulary Styles */
 #analiza-form {
     background-color: var(--surface-color);
