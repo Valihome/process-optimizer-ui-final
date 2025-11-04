@@ -122,6 +122,21 @@ main {
     resize: vertical;
 }
 
+/* Stiluri pentru Exemplul de Descriere a Procesului */
+.step-example {
+    display: block;
+    font-size: 0.9em;
+    color: #a0a0a0; /* Gri deschis pentru lizibilitate, dar nu strident */
+    background-color: #333;
+    border: 1px dashed #484848;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    white-space: pre-wrap; /* Pastreaza formatarea pe mai multe linii */
+    text-align: left;
+}
+
+
 /* Stil Buton Principal */
 button {
     width: 100%;
