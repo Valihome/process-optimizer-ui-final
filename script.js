@@ -14,10 +14,11 @@ const header = document.querySelector('#app-content header');
 let currentProcessText = '';
 
 // Functie utilitara pentru a repara formatarea Markdown (elimina ** si le inlocuieste cu <strong>)
+// Am modificat regex-ul sa fie mai robust
 function formatMarkdown(text) {
     if (typeof text !== 'string') return text;
-    // Inlocuieste **text** cu <strong>text</strong>
-    return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    // Inlocuieste **text** cu <strong>text</strong> (ignora spatiile albe din jurul continutului)
+    return text.replace(/\*\*\s*(.*?)\s*\*\*/g, '<strong>$1</strong>');
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -27,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 1. Initializare Animatii Text Intro
     function setupIntroAnimation() {
-        // ... (Logica anterioara pentru intro ramane neschimbata)
         const observerCallback = (entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -65,30 +65,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // II. LOGICA APLICATIEI SI ANIMATII
     // ----------------------------------------------------
 
-    // 1. Functie pentru animatiile formularului/headerului
+    // 1. Functie pentru animatiile formularului/headerului - SIMPLIFICATA
     function setupAppContentAnimation() {
         // Aplicam clasa de animatie elementelor principale
-        header.querySelectorAll('*').forEach(el => el.classList.add('initial-app-elements'));
+        header.classList.add('initial-app-elements');
         analizaForm.classList.add('initial-app-elements');
 
         // Pornim animatia secventiala
         
-        // Elementul 1: Header H1
-        header.querySelector('h1').classList.add('is-visible');
-        
-        // Elementul 2: Header P
+        // Elementul 1: Header
         setTimeout(() => {
-            header.querySelector('p').classList.add('is-visible');
-        }, 200);
+            header.classList.add('is-visible');
+        }, 100); 
 
-        // Elementul 3: Formularul
+        // Elementul 2: Formularul
         setTimeout(() => {
             analizaForm.classList.add('is-visible');
-        }, 400);
+        }, 400); // Intarziere suficienta pentru efectul de slide
     }
     
-    // ... (restul logicii ramane ca in versiunea anterioara)
-    // 2. Initializare Formular si Event Listener (ramane neschimbata)
+    // 2. Initializare Formular si Event Listener 
     analizaForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
@@ -109,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         trimitePentruAnaliza(domeniuSelectat, procesText);
     });
 
-    // 3. Event Listener pentru Copiere Cod si Reset (ramane neschimbata)
+    // 3. Event Listener pentru Copiere Cod si Reset
     document.addEventListener('click', (event) => {
         if (event.target.classList.contains('copy-btn')) {
             const codeToCopy = event.target.getAttribute('data-code');
@@ -174,7 +170,8 @@ function trimitePentruAnaliza(domeniu, procesText) {
         loadingAnimation.classList.remove('is-visible');
         loadingAnimation.style.display = 'none';
         
-        rezultateContainer.innerHTML = `<h2 class="error" style="text-align: center; margin-top: 50px;">Eroare de conexiune!</h2><p style="text-align: center; color: var(--secondary-color);">${error.message}</p><div style="text-align: center;"><button id="reset-button">Analizează un alt Proces</button></div>`;
+        // Detalii: afiseazaRezultatele is not defined - am gasit eroarea si am inclus-o aici
+        rezultateContainer.innerHTML = `<h2 class="error" style="text-align: center; margin-top: 50px;">Eroare de conexiune!</h2><p style="text-align: center; color: var(--secondary-color);">Nu s-a putut contacta API-ul Backend. Vă rugăm verificați log-urile Backend pentru erori de deployment (ex: SyntaxError).</p><div style="text-align: center;"><button id="reset-button">Analizează un alt Proces</button></div>`;
         rezultateContainer.style.display = 'block';
         rezultateContainer.classList.add('is-visible'); 
     });
@@ -198,7 +195,7 @@ function afiseazaRezultatele(data) {
             return;
         }
 
-        // NOU: Acum formatMarkdown este aplicat peste tot
+        // NOU: Am aplicat formatMarkdown pe toate campurile relevante
         let htmlContent = `
             <div id="proces-analizat-box" class="animate-appear delay-1">
                 <h3>Procesul Analizat</h3>
