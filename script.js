@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const analysisContent = document.getElementById('analysis-content');
     const analizaForm = document.getElementById('analiza-form');
     const rezultateContainer = document.getElementById('rezultate');
-    const mainHeader = document.getElementById('main-header'); // Referinta la antet
+    const mainHeader = document.getElementById('main-header'); 
+    const submitBtn = document.getElementById('submit-analysis-btn'); // NOU: Referință la butonul de trimitere
 
     // Functie pentru a trece de la Pagina de Bun Venit la Pagina de Analiza
     startBtn.addEventListener('click', () => {
@@ -34,6 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function trimitePentruAnaliza(domeniu, procesText) {
+        // Ascunde butonul de trimitere imediat dupa apăsare
+        submitBtn.style.display = 'none'; 
+        
         rezultateContainer.style.display = 'block'; 
         rezultateContainer.innerHTML = '<h2>Se analizeaza procesul... Va rugam asteptati.</h2>'; 
 
@@ -47,6 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
             body: JSON.stringify({ domeniu: domeniu, description: procesText }),
         })
         .then(response => {
+            // Re-afișează butonul în cazul oricărui răspuns (succes sau eroare)
+            submitBtn.style.display = 'block'; 
+
             if (!response.ok) {
                 return response.json().then(errorData => {
                     throw new Error(errorData.error || `Eroare HTTP: ${response.status}`);
