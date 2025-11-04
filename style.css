@@ -1,12 +1,14 @@
-/* style.css */
+/* style.css - Tema Dark Mode Inspirata de learn-anything.xyz */
+
 :root {
-    /* Definirea culorilor principale pentru un aspect coerent */
-    --primary-color: #007bff; /* Albastru pentru antet */
-    --secondary-color: #28a745; /* Verde pentru butonul principal */
-    --background-color: #f4f7f9; /* Fundal ușor gri */
-    --text-color: #333; /* Culoarea textului */
-    --card-background: #ffffff; /* Fundalul secțiunilor (alb) */
-    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Umbre discrete */
+    /* Schema de Culori DARK MODE */
+    --primary-color: #26b3a0; /* Culoare de accent (turcoaz/verde deschis) */
+    --secondary-color: #007bff; /* Albastru pentru butoane/elemente interactive */
+    --background-color: #1a1a1a; /* Fundalul paginii (foarte închis) */
+    --text-color: #e0e0e0; /* Culoarea textului (alb-gri deschis) */
+    --card-background: #282828; /* Fundalul secțiunilor (mai deschis decât fundalul paginii) */
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Umbre mai pronunțate pentru efect 3D */
+    --border-color: #383838; /* Contur subțire pentru separare */
 }
 
 /* Reset și Layout de Bază */
@@ -18,87 +20,118 @@ body {
     padding: 0;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Asigură că Footer-ul este jos */
+    min-height: 100vh;
+    line-height: 1.6;
 }
 
 /* Antetul Pagină (Header) */
 header {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 20px;
+    background-color: var(--card-background);
+    color: var(--text-color);
+    padding: 25px 20px;
     text-align: center;
     box-shadow: var(--shadow);
+    border-bottom: 2px solid var(--primary-color);
+}
+
+header h1 {
+    color: var(--primary-color); /* Turcoaz pentru titlu */
+    margin: 0;
+    font-size: 2.5em;
 }
 
 /* Conținutul Principal (Main) */
 main {
     max-width: 900px;
     width: 90%;
-    margin: 30px auto;
+    margin: 40px auto;
     padding: 20px;
-    flex-grow: 1; /* Permite secțiunii să ocupe spațiul disponibil */
+    flex-grow: 1;
 }
 
 /* Stiluri Formular și Casetă de Text */
 #analiza-form {
     background: var(--card-background);
-    padding: 25px;
-    border-radius: 8px;
+    padding: 30px;
+    border-radius: 10px;
     box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
     margin-bottom: 30px;
 }
 
+#domeniu-select,
 #proces-input {
     width: 100%;
     padding: 15px;
     margin-bottom: 15px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
+    background-color: #333; /* Input-uri puțin mai închise */
+    color: var(--text-color);
     border-radius: 6px;
-    box-sizing: border-box; /* Include padding și border în lățimea totală */
+    box-sizing: border-box;
     font-size: 16px;
-    resize: vertical; /* Permite redimensionarea pe verticală */
+    resize: vertical;
 }
 
 /* Stil Buton Principal */
 button {
-    background-color: var(--secondary-color);
-    color: white;
+    background-color: var(--primary-color); /* Turcoaz */
+    color: var(--background-color); /* Text închis pe buton deschis */
     padding: 12px 25px;
     border: none;
     border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.3s;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.1s;
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: #1fa08d; /* Nuanță mai închisă la hover */
+    transform: translateY(-1px);
 }
 
 /* Stiluri Rezultate și Carduri (Output API) */
 #rezultate {
     background: var(--card-background);
-    padding: 25px;
-    border-radius: 8px;
+    padding: 30px;
+    border-radius: 10px;
     box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+}
+
+#rezultate h2, #rezultate h3 {
+    color: var(--primary-color);
+    border-left: 4px solid var(--primary-color);
+    padding-left: 10px;
+    margin-top: 20px;
 }
 
 .card {
-    border: 1px solid #eee;
-    padding: 15px;
-    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    margin-bottom: 25px;
     border-radius: 8px;
-    background-color: #f9f9f9;
+    background-color: #333; /* Cardurile sunt puțin mai închise */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.card h4 {
+    color: var(--text-color);
+    margin-top: 0;
 }
 
 .prompt-code {
-    background-color: #e9ecef;
-    border: 1px solid #ced4da;
-    color: #495057;
-    padding: 10px;
+    background-color: #0d0d0d; /* Fundal negru pentru cod */
+    border: 1px solid #444;
+    color: #ffc107; /* Text galben pentru lizibilitate */
+    padding: 15px;
     border-radius: 4px;
-    font-family: monospace; /* Font pentru cod */
+    font-family: monospace;
     overflow-x: auto;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 100px;
 }
 
 .error {
@@ -106,19 +139,21 @@ button:hover {
 }
 
 .copy-btn {
-    background-color: #ffc107;
-    color: var(--text-color);
+    background-color: var(--secondary-color); /* Albastru pentru acțiune secundară */
+    color: white;
     margin-top: 10px;
+    padding: 8px 15px;
 }
 
 .copy-btn:hover {
-    background-color: #e0a800;
+    background-color: #0056b3;
 }
 
 /* Footer */
 footer {
     text-align: center;
-    padding: 15px;
-    margin-top: 20px;
+    padding: 20px;
+    margin-top: 40px;
     color: #6c757d;
+    background-color: var(--card-background);
 }
