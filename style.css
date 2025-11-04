@@ -184,22 +184,35 @@ header p {
     opacity: 0.8;
 }
 
-/* Animații de Apariție (slide-in din dreapta sau fade-in) */
-.animate-appear {
+/* NOU: Clasa generica pentru animarea elementelor de la inceputul aplicatiei */
+.initial-app-elements {
     opacity: 0;
-    transform: translateX(100%); 
+    transform: translateX(100%); /* Vine din dreapta */
     transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
-.animate-appear.is-visible {
+.initial-app-elements.is-visible {
     opacity: 1;
     transform: translateX(0);
 }
 
+/* Animații de Apariție pentru Rezultate */
+.animate-appear {
+    opacity: 0;
+    transform: translateY(20px); /* Vine de jos (carduri, titluri rezultate) */
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.animate-appear.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 /* Clase de intarziere */
-.animate-appear.delay-1 { transition-delay: 0.2s; }
-.animate-appear.delay-2 { transition-delay: 0.4s; }
-.animate-appear.delay-3 { transition-delay: 0.6s; }
-.animate-appear.delay-4 { transition-delay: 0.8s; }
+.delay-1 { transition-delay: 0.2s; }
+.delay-2 { transition-delay: 0.4s; }
+.delay-3 { transition-delay: 0.6s; }
+.delay-4 { transition-delay: 0.8s; }
+.delay-5 { transition-delay: 1.0s; }
+.delay-6 { transition-delay: 1.2s; }
 
 
 /* Conținutul Principal (Main) */
