@@ -1,18 +1,18 @@
-/* style.css - Tema Dark Mode + Optimizare Mobilă (Premium Look) */
+/* style.css - Tema Dark Mode + Centrare Perfecta */
 
 :root {
     /* Schema de Culori DARK MODE */
-    --primary-color: #26b3a0; /* Culoare de accent (turcoaz/verde deschis) */
-    --secondary-color: #007bff; /* Albastru pentru butoane/elemente interactive */
-    --background-color: #1a1a1a; /* Fundalul paginii (foarte închis) */
-    --text-color: #e0e0e0; /* Culoarea textului (alb-gri deschis) */
-    --card-background: #282828; /* Fundalul secțiunilor */
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Umbre pentru efect */
-    --border-color: #383838; /* Contur subțire */
-    --input-background: #333333; /* Fundal pentru câmpurile de input */
+    --primary-color: #26b3a0;
+    --secondary-color: #007bff;
+    --background-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --card-background: #282828;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    --border-color: #383838;
+    --input-background: #333333;
 }
 
-/* Reset și Layout de Bază */
+/* Reset si Layout de Baza */
 body {
     font-family: 'Arial', sans-serif;
     background-color: var(--background-color);
@@ -23,16 +23,20 @@ body {
     flex-direction: column;
     min-height: 100vh;
     line-height: 1.6;
+    /* Adaugam centrare de baza pentru continutul vertical, dar flex-direction: column e prioritar */
+    align-items: center; 
 }
 
-/* Antetul Pagină (Header) */
+/* Antetul Pagină (Header) - Centrat, mai curat */
 header {
     background-color: var(--card-background);
     color: var(--text-color);
     padding: 25px 20px;
     text-align: center;
     box-shadow: var(--shadow);
-    border-bottom: 3px solid var(--primary-color); /* Liniție mai groasă */
+    border-bottom: 3px solid var(--primary-color);
+    width: 100%; /* Ocupa toata latimea */
+    box-sizing: border-box;
 }
 
 header h1 {
@@ -41,34 +45,43 @@ header h1 {
     font-size: 2.5em;
 }
 
-/* Conținutul Principal (Main) - Mai mult spațiu lateral */
+header p {
+    max-width: 600px;
+    margin: 10px auto 0 auto; /* Centram paragraful in header */
+}
+
+/* Conținutul Principal (Main) - Centrare pe orizontala */
 main {
     max-width: 900px;
     width: 90%;
     margin: 40px auto;
-    padding: 20px;
+    padding: 0 10px; /* Padding mic pentru mobil */
     flex-grow: 1;
+    /* Daca dorim ca sectiunile sa fie centrate, main-ul le contine. */
+    /* Sectiunile de formular si rezultate au deja width: 100% in interiorul main-ului */
 }
 
 /* Stiluri Formular și Casetă de Text */
 #analiza-form {
     background: var(--card-background);
     padding: 30px;
-    border-radius: 12px; /* Margină mai rotunjită */
+    border-radius: 12px;
     box-shadow: var(--shadow);
     border: 1px solid var(--border-color);
     margin-bottom: 30px;
+    width: 100%; /* Important */
+    box-sizing: border-box;
 }
 
 #domeniu-select,
 #proces-input {
     width: 100%;
-    padding: 18px 15px; /* Padding mai mare pentru mobil */
-    margin-bottom: 20px; /* Mai mult spațiu între elemente */
+    padding: 18px 15px;
+    margin-bottom: 20px;
     border: 1px solid var(--border-color);
     background-color: var(--input-background);
     color: var(--text-color);
-    border-radius: 8px; /* Mai rotunjit */
+    border-radius: 8px;
     box-sizing: border-box;
     font-size: 17px;
     resize: vertical;
@@ -76,22 +89,22 @@ main {
 
 /* Stil Buton Principal */
 button {
-    width: 100%; /* Ocupă lățimea completă pe mobil */
+    width: 100%;
     background-color: var(--primary-color);
     color: var(--background-color);
-    padding: 15px 25px; /* Mai mare, mai ușor de apăsat */
+    padding: 15px 25px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-size: 18px;
     font-weight: bold;
     transition: background-color 0.3s, transform 0.1s;
-    letter-spacing: 0.5px; /* Efect "premium" */
+    letter-spacing: 0.5px;
 }
 
 button:hover {
     background-color: #1fa08d;
-    transform: translateY(-2px); /* Efect de ridicare mai vizibil */
+    transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(38, 179, 160, 0.4);
 }
 
@@ -102,6 +115,9 @@ button:hover {
     border-radius: 12px;
     box-shadow: var(--shadow);
     border: 1px solid var(--border-color);
+    /* Asiguram ca si sectiunea de rezultate ocupa 100% din main */
+    width: 100%; 
+    box-sizing: border-box;
 }
 
 #rezultate h2, #rezultate h3 {
@@ -150,7 +166,7 @@ button:hover {
 }
 
 .copy-btn {
-    width: auto; /* Lăsăm butonul de copiere să fie mai mic */
+    width: auto;
     background-color: var(--secondary-color);
     color: white;
     margin-top: 10px;
@@ -158,12 +174,27 @@ button:hover {
     font-size: 15px;
 }
 
-/* Media Query: Optimizări pentru ecrane mai mici de 600px (Mobile) */
+.error {
+    color: crimson;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    color: #6c757d;
+    background-color: var(--card-background);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Media Query: Optimizări pentru ecrane mici (Mobile) */
 @media (max-width: 600px) {
     main {
-        width: 95%; /* Mărim lățimea pe ecrane mici */
+        width: 95%; 
         margin: 20px auto;
-        padding: 10px;
+        padding: 0; /* Eliminam padding-ul suplimentar de pe main */
     }
 
     header {
@@ -175,7 +206,7 @@ button:hover {
     }
 
     #analiza-form, #rezultate {
-        padding: 20px;
+        padding: 20px 15px; /* Padding usor ajustat in interiorul sectiunilor */
     }
 
     .card {
