@@ -1,35 +1,32 @@
 // script.js
-
 // URL-ul Backend-ului tău LIVE pe Render
 const API_BASE_URL = 'https://process-optimizer-api.onrender.com';
 
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Initializare Formular si Event Listener
     const analizaForm = document.getElementById('analiza-form');
     analizaForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        // Citim ambele câmpuri
         const domeniuSelectat = document.getElementById('domeniu-select').value;
         const procesText = document.getElementById('proces-input').value;
 
         if (domeniuSelectat.trim() === "") {
-            alert("Te rog alege un Domeniu pentru a începe analiza.");
+            alert("Te rog alege un Domeniu pentru a incepe analiza.");
             return;
         }
         if (procesText.trim() === "") {
-            alert("Te rog descrie procesul pentru a începe analiza.");
+            alert("Te rog descrie procesul pentru a incepe analiza.");
             return;
         }
         
-        // Apelăm funcția cu ambele argumente
         trimitePentruAnaliza(domeniuSelectat, procesText);
     });
 
-    // Adaugă ascultător de evenimente pentru butoanele de copiere
+    // 2. Event Listener pentru Copiere Cod
     document.addEventListener('click', (event) => {
         if (event.target.classList.contains('copy-btn')) {
             const codeToCopy = event.target.getAttribute('data-code');
-            // Folosim navigator.clipboard.writeText pentru a copia
             navigator.clipboard.writeText(codeToCopy).then(() => {
                 alert('Codul de automatizare a fost copiat!');
             }).catch(err => {
@@ -37,17 +34,34 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
+
+    // NOU: 3. Initializare Intersection Observer pentru Animatii
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Adauga clasa is-visible cand elementul intra in viewport
+                entry.target.classList.add('is-visible');
+                // Opreste observarea, animatia se face o singura data
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        // Porneste animatia cand 10% din element este vizibil
+        threshold: 0.1 
+    });
+
+    // Observa toate elementele care au clasa .fade-in-section
+    document.querySelectorAll('.fade-in-section').forEach(section => {
+        observer.observe(section);
+    });
 });
 
 /**
  * Trimite descrierea procesului și domeniul către API-ul Backend.
- * @param {string} domeniu - Domeniul selectat de utilizator.
- * @param {string} procesText - Descrierea procesului introdusă de utilizator.
  */
 function trimitePentruAnaliza(domeniu, procesText) {
     const rezultateContainer = document.getElementById('rezultate');
-    // Mesaj de așteptare
-    rezultateContainer.innerHTML = '<h2>Se analizează procesul... Vă rugăm așteptați.</h2>'; 
+    rezultateContainer.innerHTML = '<h2>Se analizeaza procesul... Va rugam asteptati.</h2>'; 
 
     const apiEndpoint = `${API_BASE_URL}/api/analyze`; 
 
@@ -57,82 +71,94 @@ function trimitePentruAnaliza(domeniu, procesText) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ 
-            // Trimitem ambele câmpuri
             domeniu: domeniu,
             description: procesText 
         }),
     })
     .then(response => {
         if (!response.ok) {
-            // Dacă răspunsul HTTP nu este OK, aruncăm o eroare
             throw new Error(`Eroare HTTP la apelarea API-ului: ${response.status} ${response.statusText}`);
         }
         return response.json();
     })
     .then(data => {
-        // Apelăm funcția care afișează rezultatele (aceasta nu mai este "not defined")
         afiseazaRezultatele(data); 
     })
     .catch(error => {
         console.error('Eroare la trimiterea datelor sau la procesare:', error);
-        // Afișăm eroarea în interfața utilizatorului
-        rezultateContainer.innerHTML = `<h2 class="error">Eroare de conexiune!</h2><p>Nu s-a putut finaliza cererea către API. Detalii: ${error.message}</p>`;
+        rezultateContainer.innerHTML = `<h2 class="error">Eroare de conexiune!</h2><p>Nu s-a putut finaliza cererea catre API. Detalii: ${error.message}</p>`;
     });
 }
 
 /**
  * Prelucrează și afișează datele JSON primite de la Backend.
- * @param {object} data - Obiectul JSON cu analiza procesului (datele simulate/reale).
  */
 function afiseazaRezultatele(data) {
     const rezultateContainer = document.getElementById('rezultate');
-    rezultateContainer.innerHTML = ''; // Curăță conținutul
+    rezultateContainer.innerHTML = ''; 
 
     if (data.error) {
-        rezultateContainer.innerHTML = `<h2 class="error">Eroare de analiză:</h2><p>${data.error}</p>`;
+        rezultateContainer.innerHTML = `<h2 class="error">Eroare de analiza:</h2><p>${data.error}</p>`;
         return;
     }
 
-    // 1. Analiza Generală
+    // 1. Analiza Generala
     let htmlContent = `
-        <h2 style="color: var(--primary-color);">Analiză Generală</h2>
+        <h2 style="color: var(--primary-color);">Analiza Generala</h2>
         <p style="font-style: italic; border-left: 3px solid var(--primary-color); padding-left: 10px;">${data.analiza_generala}</p>
-        <hr>
-        <h3 style="color: var(--secondary-color);">Oportunități de Optimizare</h3>
+        <hr style="margin-top: 40px; border-color: var(--border-color);">
+        <h3 style="color: var(--text-color);">Oportunitati de Optimizare</h3>
     `;
     
-    // 2. Oportunitățile de Optimizare
+    // 2. Oportunitatile de Optimizare
     if (data.oportunitati_optimizare && data.oportunitati_optimizare.length > 0) {
         data.oportunitati_optimizare.forEach((oportunitate, index) => {
-            // Escape pentru a folosi în data-code fără probleme
             const safePrompt = oportunitate.prompt_cod_relevant.replace(/"/g, '&quot;');
             
+            // Atentie: Adaugam clasa 'card' pentru a beneficia de animatii
             htmlContent += `
-                <div class="card">
+                <div class="card"> 
                     <h4>${index + 1}. Pas original: **${oportunitate.pas_proces_original}**</h4>
                     <ul>
-                        <li>**Ineficiență:** ${oportunitate.tip_ineficienta}</li>
-                        <li>**Impact Estim.** (pe săptămână): ${oportunitate.impact_estimat}</li>
-                        <li>**Soluție Recomandată:** ${oportunitate.solutie_recomandata} (Instrument: **${oportunitate.instrument_sugerat}**)</li>
+                        <li><strong>Ineficienta:</strong> ${oportunitate.tip_ineficienta}</li>
+                        <li><strong>Impact Estim.:</strong> ${oportunitate.impact_estimat}</li>
+                        <li><strong>Solutie Recomandata:</strong> ${oportunitate.solutie_recomandata} (Instrument: <strong>${oportunitate.instrument_sugerat}</strong>)</li>
                     </ul>
                     
-                    <h5 style="margin-top: 15px;">Cod/Prompt Sugerat</h5>
-                    <textarea readonly class="prompt-code" style="width: 100%; min-height: 80px; resize: none; margin-bottom: 10px;">${oportunitate.prompt_cod_relevant}</textarea>
+                    <h5 style="margin-top: 20px; color: var(--highlight-color);">Cod/Prompt Sugerat</h5>
+                    <textarea readonly class="prompt-code">${oportunitate.prompt_cod_relevant}</textarea>
 
-                    <button class="copy-btn" data-code="${safePrompt}">Copiază Codul</button>
+                    <button class="copy-btn" data-code="${safePrompt}">Copiaza Codul</button>
                 </div>
             `;
         });
     } else {
-         htmlContent += '<p>Nu au fost identificate oportunități clare de optimizare.</p>';
+         htmlContent += '<p>Nu au fost identificate oportunitati clare de optimizare.</p>';
     }
 
-    // 3. Finalizarea și pașii următori
+    // 3. Finalizarea si pasii urmatori
     htmlContent += `
-        <hr>
-        <h3 style="color: #6c757d;">Pași Următori</h3>
+        <hr style="margin-top: 40px; border-color: var(--border-color);">
+        <h3 style="color: var(--secondary-color);">Pasi Urmatori</h3>
         <p>${data.next_steps}</p>
     `;
 
     rezultateContainer.innerHTML = htmlContent;
+
+    // NOU: Observa noile carduri generate pentru a le anima
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Adauga clasa is-visible pentru a declansa animatia
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+
+    document.querySelectorAll('#rezultate .card').forEach(card => {
+        observer.observe(card);
+    });
 }
