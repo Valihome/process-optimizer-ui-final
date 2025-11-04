@@ -1,7 +1,6 @@
-/* style.css - Tema Dark Mode + Centrare Perfecta */
+/* style.css - Tema Dark Mode + Centrare Totala Universala */
 
 :root {
-    /* Schema de Culori DARK MODE */
     --primary-color: #26b3a0;
     --secondary-color: #007bff;
     --background-color: #1a1a1a;
@@ -23,19 +22,18 @@ body {
     flex-direction: column;
     min-height: 100vh;
     line-height: 1.6;
-    /* Adaugam centrare de baza pentru continutul vertical, dar flex-direction: column e prioritar */
-    align-items: center; 
+    align-items: center; /* Centrare elemente pe orizontala */
 }
 
-/* Antetul Pagină (Header) - Centrat, mai curat */
+/* Antetul Pagină (Header) - Centrat */
 header {
     background-color: var(--card-background);
     color: var(--text-color);
-    padding: 25px 20px;
+    padding: 40px 20px 20px 20px;
     text-align: center;
     box-shadow: var(--shadow);
     border-bottom: 3px solid var(--primary-color);
-    width: 100%; /* Ocupa toata latimea */
+    width: 100%;
     box-sizing: border-box;
 }
 
@@ -45,23 +43,21 @@ header h1 {
     font-size: 2.5em;
 }
 
-header p {
-    max-width: 600px;
-    margin: 10px auto 0 auto; /* Centram paragraful in header */
+header p.subtitle {
+    margin: 10px auto 0 auto;
+    font-size: 1.1em;
 }
 
-/* Conținutul Principal (Main) - Centrare pe orizontala */
+/* Conținutul Principal (Main) - Container Centrat */
 main {
-    max-width: 900px;
+    max-width: 600px; 
     width: 90%;
-    margin: 40px auto;
-    padding: 0 10px; /* Padding mic pentru mobil */
+    margin: 40px auto; /* Centrare pe orizontala */
+    padding: 0;
     flex-grow: 1;
-    /* Daca dorim ca sectiunile sa fie centrate, main-ul le contine. */
-    /* Sectiunile de formular si rezultate au deja width: 100% in interiorul main-ului */
 }
 
-/* Stiluri Formular și Casetă de Text */
+/* Stiluri Formular (Centrat in Main) */
 #analiza-form {
     background: var(--card-background);
     padding: 30px;
@@ -69,7 +65,7 @@ main {
     box-shadow: var(--shadow);
     border: 1px solid var(--border-color);
     margin-bottom: 30px;
-    width: 100%; /* Important */
+    width: 100%; 
     box-sizing: border-box;
 }
 
@@ -115,11 +111,12 @@ button:hover {
     border-radius: 12px;
     box-shadow: var(--shadow);
     border: 1px solid var(--border-color);
-    /* Asiguram ca si sectiunea de rezultate ocupa 100% din main */
     width: 100%; 
     box-sizing: border-box;
+    display: none; /* Ascuns initial */
 }
 
+/* Stiluri interne ale rezultatelor - Asigura lizibilitatea */
 #rezultate h2, #rezultate h3 {
     color: var(--primary-color);
     border-left: 5px solid var(--primary-color);
@@ -134,21 +131,6 @@ button:hover {
     border-radius: 10px;
     background-color: #333;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.card h4 {
-    color: var(--text-color);
-    margin-top: 0;
-    font-size: 1.1em;
-}
-
-.card ul {
-    padding-left: 20px;
-    list-style: none;
-}
-
-.card ul li {
-    margin-bottom: 8px;
 }
 
 .prompt-code {
@@ -174,42 +156,25 @@ button:hover {
     font-size: 15px;
 }
 
-.error {
-    color: crimson;
-}
-
-/* Footer */
+/* Footer (Muta la baza paginii si centrat) */
 footer {
     text-align: center;
     padding: 20px;
-    margin-top: 40px;
+    margin-top: auto; /* Impinge footer-ul la baza */
     color: #6c757d;
     background-color: var(--card-background);
     width: 100%;
     box-sizing: border-box;
 }
 
-/* Media Query: Optimizări pentru ecrane mici (Mobile) */
+footer p.copyright-note {
+    margin: 0;
+}
+
+/* Optimizare mobilă (ajustare padding) */
 @media (max-width: 600px) {
     main {
         width: 95%; 
         margin: 20px auto;
-        padding: 0; /* Eliminam padding-ul suplimentar de pe main */
-    }
-
-    header {
-        padding: 15px 10px;
-    }
-
-    header h1 {
-        font-size: 2em;
-    }
-
-    #analiza-form, #rezultate {
-        padding: 20px 15px; /* Padding usor ajustat in interiorul sectiunilor */
-    }
-
-    .card {
-        padding: 15px;
     }
 }
