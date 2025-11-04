@@ -4,10 +4,80 @@ const API_BASE_URL = 'https://process-optimizer-api.onrender.com';
 // Elementele cheie
 const loadingAnimation = document.getElementById('loading-animation');
 const rezultateContainer = document.getElementById('rezultate');
-const pageContent = document.getElementById('page-content');
+const introScreen = document.getElementById('intro-screen');
+const appContent = document.getElementById('app-content');
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Initializare Formular si Event Listener
+    // ----------------------------------------------------
+    // I. LOGICA INTRODUCTIVA SI TRANZITIE (NEW)
+    // ----------------------------------------------------
+
+    // 1. Initializare Animatii Text Intro
+    function setupIntroAnimation() {
+        const observerCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); 
+                }
+            });
+        };
+
+        const introObserver = new IntersectionObserver(observerCallback, { threshold: 0.1 });
+
+        // Aplica observatorul pe elementele animate din intro
+        document.querySelectorAll('.animate-intro-h1, .animate-intro-p').forEach(element => {
+            introObserver.observe(element);
+        });
+    }
+    setupIntroAnimation(); 
+
+    // 2. Gestionarea Butonului de Start
+    document.getElementById('start-app-button').addEventListener('click', () => {
+        // Initiaza fade-out pe ecranul intro
+        introScreen.style.opacity = '0';
+        
+        // Asteapta ca animatia de fade-out sa se termine (1000ms din CSS)
+        setTimeout(() => {
+            introScreen.style.display = 'none';
+
+            // Afiseaza continutul aplicatiei
+            appContent.style.display = 'block';
+            
+            // Fortam reflow inainte de a aplica fade-in
+            appContent.offsetHeight; 
+            appContent.style.opacity = '1';
+
+            // Porneste animatiile secventiale ale formularului
+            setupAppContentAnimation(); 
+        }, 1000); 
+    });
+
+
+    // ----------------------------------------------------
+    // II. LOGICA APLICATIEI SI ANIMATII (UPDATE)
+    // ----------------------------------------------------
+
+    // 1. Functie pentru animatiile formularului/headerului
+    function setupAppContentAnimation() {
+        const observerCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); 
+                }
+            });
+        };
+
+        const appObserver = new IntersectionObserver(observerCallback, { threshold: 0.1 });
+
+        // Aplica observatorul pe elementele cu clasa .animate-appear din aplicatie
+        document.querySelectorAll('#app-content .animate-appear').forEach(element => {
+            appObserver.observe(element);
+        });
+    }
+
+    // 2. Initializare Formular si Event Listener
     const analizaForm = document.getElementById('analiza-form');
     analizaForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -27,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         trimitePentruAnaliza(domeniuSelectat, procesText);
     });
 
-    // 2. Event Listener pentru Copiere Cod
+    // 3. Event Listener pentru Copiere Cod
     document.addEventListener('click', (event) => {
         if (event.target.classList.contains('copy-btn')) {
             const codeToCopy = event.target.getAttribute('data-code');
@@ -39,35 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // NOU: Functie pentru a face elementele sa apara secvential
-    function setupAppearAnimation() {
-        const observerOptions = {
-            root: null, // Observa in raport cu viewport-ul
-            rootMargin: '0px',
-            threshold: 0.1 // Cand 10% din element e vizibil
-        };
-
-        const observerCallback = (entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target); // Opreste observarea dupa animatie
-                }
-            });
-        };
-
-        const appearObserver = new IntersectionObserver(observerCallback, observerOptions);
-
-        // Aplica observatorul pe elementele cu clasa .animate-appear
-        document.querySelectorAll('.animate-appear').forEach(element => {
-            appearObserver.observe(element);
-        });
-    }
-
-    // Afiseaza continutul paginii si porneste animatiile initiale
-    document.body.classList.remove('initial-hidden');
-    pageContent.style.opacity = '1';
-    setupAppearAnimation(); 
 });
 
 /**
@@ -77,10 +118,10 @@ function trimitePentruAnaliza(domeniu, procesText) {
     // Ascunde rezultatele vechi si afiseaza animatia de loading
     rezultateContainer.style.display = 'none';
     rezultateContainer.classList.remove('is-visible');
-    rezultateContainer.innerHTML = ''; // Curata pentru noua analiza
+    rezultateContainer.innerHTML = ''; 
 
-    loadingAnimation.style.display = 'flex'; // Afiseaza animatia de loading
-    loadingAnimation.classList.add('is-visible'); // Animația de apariție a loading-ului
+    loadingAnimation.style.display = 'flex'; 
+    loadingAnimation.classList.add('is-visible'); 
     
     const apiEndpoint = `${API_BASE_URL}/api/analyze`; 
 
@@ -109,7 +150,7 @@ function trimitePentruAnaliza(domeniu, procesText) {
         
         rezultateContainer.innerHTML = `<h2 class="error" style="text-align: center; margin-top: 50px;">Eroare de conexiune!</h2><p style="text-align: center; color: var(--secondary-color);">${error.message}</p>`;
         rezultateContainer.style.display = 'block';
-        rezultateContainer.classList.add('is-visible');
+        rezultateContainer.classList.add('is-visible'); 
     });
 }
 
@@ -142,9 +183,11 @@ function afiseazaRezultatele(data) {
             data.oportunitati_optimizare.forEach((oportunitate, index) => {
                 const safePrompt = oportunitate.prompt_cod_relevant.replace(/"/g, '&quot;');
                 
-                // Fiecare card apare cu o intarziere suplimentara
+                // Fiecare card apare cu o intarziere suplimentara (index * 0.1s + baza)
+                const cardDelay = 5 + index; 
+                
                 htmlContent += `
-                    <div class="card animate-appear delay-${5 + index}"> 
+                    <div class="card animate-appear delay-${cardDelay}"> 
                         <h4>${index + 1}. Pas original: **${oportunitate.pas_proces_original}**</h4>
                         <ul>
                             <li><strong>Ineficienta:</strong> ${oportunitate.tip_ineficienta}</li>
@@ -163,34 +206,30 @@ function afiseazaRezultatele(data) {
             htmlContent += '<p class="animate-appear delay-5" style="text-align: center; color: var(--secondary-color);">Nu au fost identificate oportunitati clare de optimizare.</p>';
         }
 
+        const baseDelay = 5 + (data.oportunitati_optimizare ? data.oportunitati_optimizare.length : 0);
         htmlContent += `
-            <hr style="margin-top: 40px; border-color: var(--border-color);" class="animate-appear delay-${5 + data.oportunitati_optimizare.length}">
-            <h3 class="animate-appear delay-${6 + data.oportunitati_optimizare.length}" style="color: var(--secondary-color);">Pasi Urmatori</h3>
-            <p class="animate-appear delay-${7 + data.oportunitati_optimizare.length}">${data.next_steps}</p>
+            <hr style="margin-top: 40px; border-color: var(--border-color);" class="animate-appear delay-${baseDelay + 1}">
+            <h3 class="animate-appear delay-${baseDelay + 2}" style="color: var(--secondary-color);">Pasi Urmatori</h3>
+            <p class="animate-appear delay-${baseDelay + 3}">${data.next_steps}</p>
         `;
 
         rezultateContainer.innerHTML = htmlContent;
         rezultateContainer.style.display = 'block';
+        rezultateContainer.classList.add('is-visible');
         
         // Re-aplica observer-ul pe noile elemente animate din rezultate
-        const observerOptions = {
-            root: null, 
-            rootMargin: '0px',
-            threshold: 0.1 
-        };
-
         const observerCallback = (entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target); 
+                    observer.unobserve(entry.target);
                 }
             });
         };
-        const appearObserver = new IntersectionObserver(observerCallback, observerOptions);
+        const resultsObserver = new IntersectionObserver(observerCallback, { threshold: 0.1 });
         document.querySelectorAll('#rezultate .animate-appear').forEach(element => {
-            appearObserver.observe(element);
+            resultsObserver.observe(element);
         });
 
-    }, 600); // Asteapta mai mult pentru o tranzitie mai fluida
+    }, 600); 
 }
