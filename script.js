@@ -8,6 +8,7 @@ const introScreen = document.getElementById('intro-screen');
 const appContent = document.getElementById('app-content');
 const analizaForm = document.getElementById('analiza-form');
 const procesInput = document.getElementById('proces-input');
+const header = document.querySelector('#app-content header');
 
 // Variabila globala pentru a stoca textul procesului introdus
 let currentProcessText = '';
@@ -26,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 1. Initializare Animatii Text Intro
     function setupIntroAnimation() {
+        // ... (Logica anterioara pentru intro ramane neschimbata)
         const observerCallback = (entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -53,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
             appContent.offsetHeight; 
             appContent.style.opacity = '1';
 
+            // NOU: Fortam aparitia headerului si formularului
             setupAppContentAnimation(); 
         }, 1000); 
     });
@@ -64,23 +67,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 1. Functie pentru animatiile formularului/headerului
     function setupAppContentAnimation() {
-        const observerCallback = (entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target); 
-                }
-            });
-        };
+        // Aplicam clasa de animatie elementelor principale
+        header.querySelectorAll('*').forEach(el => el.classList.add('initial-app-elements'));
+        analizaForm.classList.add('initial-app-elements');
 
-        const appObserver = new IntersectionObserver(observerCallback, { threshold: 0.1 });
+        // Pornim animatia secventiala
+        
+        // Elementul 1: Header H1
+        header.querySelector('h1').classList.add('is-visible');
+        
+        // Elementul 2: Header P
+        setTimeout(() => {
+            header.querySelector('p').classList.add('is-visible');
+        }, 200);
 
-        document.querySelectorAll('#app-content .animate-appear').forEach(element => {
-            appObserver.observe(element);
-        });
+        // Elementul 3: Formularul
+        setTimeout(() => {
+            analizaForm.classList.add('is-visible');
+        }, 400);
     }
-
-    // 2. Initializare Formular si Event Listener
+    
+    // ... (restul logicii ramane ca in versiunea anterioara)
+    // 2. Initializare Formular si Event Listener (ramane neschimbata)
     analizaForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
@@ -96,13 +104,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         
-        // NOU: Stocam textul procesului inainte de analiza
         currentProcessText = procesText;
 
         trimitePentruAnaliza(domeniuSelectat, procesText);
     });
 
-    // 3. Event Listener pentru Copiere Cod
+    // 3. Event Listener pentru Copiere Cod si Reset (ramane neschimbata)
     document.addEventListener('click', (event) => {
         if (event.target.classList.contains('copy-btn')) {
             const codeToCopy = event.target.getAttribute('data-code');
@@ -113,15 +120,14 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
         
-        // NOU: Gestionarea Butonului de Repornire
         if (event.target.id === 'reset-button') {
             rezultateContainer.classList.remove('is-visible');
             setTimeout(() => {
                 rezultateContainer.style.display = 'none';
-                analizaForm.style.display = 'block'; // Arata formularul
-                analizaForm.classList.add('is-visible'); // Animația de apariție a formularului
-                procesInput.value = ''; // Golește input-ul
-                window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll la inceput
+                analizaForm.style.display = 'block'; 
+                analizaForm.classList.add('is-visible'); 
+                procesInput.value = ''; 
+                window.scrollTo({ top: 0, behavior: 'smooth' }); 
             }, 600);
         }
     });
@@ -168,7 +174,7 @@ function trimitePentruAnaliza(domeniu, procesText) {
         loadingAnimation.classList.remove('is-visible');
         loadingAnimation.style.display = 'none';
         
-        rezultateContainer.innerHTML = `<h2 class="error" style="text-align: center; margin-top: 50px;">Eroare de conexiune!</h2><p style="text-align: center; color: var(--secondary-color);">${error.message}</p>`;
+        rezultateContainer.innerHTML = `<h2 class="error" style="text-align: center; margin-top: 50px;">Eroare de conexiune!</h2><p style="text-align: center; color: var(--secondary-color);">${error.message}</p><div style="text-align: center;"><button id="reset-button">Analizează un alt Proces</button></div>`;
         rezultateContainer.style.display = 'block';
         rezultateContainer.classList.add('is-visible'); 
     });
@@ -186,13 +192,13 @@ function afiseazaRezultatele(data) {
         loadingAnimation.style.display = 'none';
         
         if (data.error) {
-            rezultateContainer.innerHTML = `<h2 class="error" style="text-align: center; margin-top: 50px;">Eroare de analiza:</h2><p style="text-align: center; color: var(--secondary-color);">${data.error}</p><button id="reset-button">Analizează un alt Proces</button>`;
+            rezultateContainer.innerHTML = `<h2 class="error" style="text-align: center; margin-top: 50px;">Eroare de analiza:</h2><p style="text-align: center; color: var(--secondary-color);">${data.error}</p><div style="text-align: center;"><button id="reset-button">Analizează un alt Proces</button></div>`;
             rezultateContainer.style.display = 'block';
             rezultateContainer.classList.add('is-visible');
             return;
         }
 
-        // NOU: Introducem containerul cu textul procesului analizat
+        // NOU: Acum formatMarkdown este aplicat peste tot
         let htmlContent = `
             <div id="proces-analizat-box" class="animate-appear delay-1">
                 <h3>Procesul Analizat</h3>
