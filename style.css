@@ -1,22 +1,23 @@
-/* style.css - Tema Dark Mode Eleganta (Modern & Clean) */
+/* style.css - Tema Creativa & Moderna (Inspirata de Buzzworthy Studio) */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-    /* Schema de Culori DARK MODE ELEGANT */
-    --primary-color: #00bcd4; /* Cyan/Turcoaz Subtil pentru Accente */
-    --secondary-color: #6c757d; /* Gri Cald pentru Text Secundar */
-    --background-color: #121212; /* Fundal Foarte Întunecat (True Dark) */
-    --text-color: #f0f0f0; /* Text Alb-Deschis */
-    --card-background: #1e1e1e; /* Fundalul Cardurilor (Puțin mai deschis) */
-    --input-background: #252525; /* Fundalul Câmpurilor de Input */
-    --shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Umbră adâncă */
-    --border-color: #333333; /* Contur subtil */
+    /* Schema de Culori Inspirata */
+    --primary-color: #ff5722; /* Portocaliu vibrant pentru accent (ca un call-to-action) */
+    --secondary-color: #607d8b; /* Gri-albăstrui pentru text secundar */
+    --background-color: #1c1c2c; /* Un fundal albastru-închis spre violet închis */
+    --text-color: #f8f8f8; /* Alb-aproape-pur pentru text principal */
+    --card-background: #2a2a3e; /* Fundalul cardurilor, ușor mai deschis */
+    --input-background: #3a3a50; /* Fundalul input-urilor */
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.6); /* Umbre mai adânci */
+    --border-color: #4a4a60; /* Contururi clare */
+    --highlight-color: #ffd740; /* Galben vibrant pentru cod/detalii */
 }
 
 /* Reset și Layout de Bază */
 body {
-    font-family: 'Inter', sans-serif; /* Font modern */
+    font-family: 'Inter', sans-serif; /* Font principal pentru corp */
     background-color: var(--background-color);
     color: var(--text-color);
     margin: 0;
@@ -31,28 +32,32 @@ body {
 header {
     background-color: var(--card-background);
     color: var(--text-color);
-    padding: 30px 20px;
+    padding: 40px 20px;
     text-align: center;
     box-shadow: var(--shadow);
-    border-bottom: 1px solid var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
 }
 
 header h1 {
+    font-family: 'Montserrat', sans-serif; /* Font mai îndrăzneț pentru titluri */
     color: var(--primary-color);
     margin: 0;
-    font-size: 2.8em;
-    font-weight: 700;
+    font-size: 3.2em;
+    font-weight: 800; /* Extra bold */
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 header p {
     color: var(--secondary-color);
-    font-weight: 300;
+    font-weight: 400;
+    font-size: 1.1em;
 }
 
 /* Conținutul Principal (Main) */
 main {
-    max-width: 900px;
+    max-width: 950px; /* Puțin mai lat */
     width: 90%;
-    margin: 50px auto;
+    margin: 60px auto;
     padding: 20px 0;
     flex-grow: 1;
 }
@@ -60,69 +65,78 @@ main {
 /* Stiluri Formular și Casetă de Text */
 #analiza-form {
     background: var(--card-background);
-    padding: 35px;
-    border-radius: 12px;
+    padding: 40px;
+    border-radius: 15px; /* Colțuri mai rotunjite */
     box-shadow: var(--shadow);
     border: 1px solid var(--border-color);
-    margin-bottom: 40px;
+    margin-bottom: 50px;
 }
 
 #domeniu-select,
 #proces-input {
     width: 100%;
-    padding: 18px;
-    margin-bottom: 20px;
+    padding: 20px;
+    margin-bottom: 25px;
     border: 1px solid var(--border-color);
     background-color: var(--input-background);
     color: var(--text-color);
-    border-radius: 8px;
+    border-radius: 10px; /* Colțuri rotunjite */
     box-sizing: border-box;
-    font-size: 16px;
-    font-weight: 400;
-    transition: border-color 0.3s;
+    font-size: 17px;
+    font-weight: 500;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 #domeniu-select:focus,
 #proces-input:focus {
     border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.3); /* Umbră de focus vibrantă */
     outline: none;
+}
+option {
+    background-color: var(--input-background); /* Fundal pentru opțiuni */
+    color: var(--text-color);
 }
 
 /* Stil Buton Principal */
 button[type="submit"] {
     background-color: var(--primary-color);
     color: var(--background-color);
-    padding: 14px 30px;
+    padding: 16px 35px;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 17px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    transition: background-color 0.3s, transform 0.2s;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    box-shadow: 0 5px 15px rgba(255, 87, 34, 0.4);
 }
 
 button[type="submit"]:hover {
-    background-color: #00a0b7; /* Nuanță mai închisă la hover */
-    transform: translateY(-2px);
+    background-color: #e64a19; /* Nuanță mai închisă la hover */
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 87, 34, 0.6);
 }
 
 /* Stiluri Rezultate și Carduri (Output API) */
 #rezultate {
     background: var(--card-background);
-    padding: 35px;
-    border-radius: 12px;
+    padding: 40px;
+    border-radius: 15px;
     box-shadow: var(--shadow);
     border: 1px solid var(--border-color);
 }
 
 #rezultate h2, #rezultate h3 {
+    font-family: 'Montserrat', sans-serif;
     color: var(--primary-color);
-    border-left: 3px solid var(--primary-color);
-    padding-left: 12px;
-    margin-top: 30px;
-    margin-bottom: 15px;
-    font-weight: 600;
+    border-left: 4px solid var(--primary-color);
+    padding-left: 15px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    font-weight: 700;
 }
 
 #rezultate h2:first-child {
@@ -132,33 +146,38 @@ button[type="submit"]:hover {
 /* Carduri pentru oportunități */
 .card {
     border: 1px solid var(--border-color);
-    padding: 25px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    background-color: #222222; 
-    transition: border-color 0.3s;
+    padding: 30px;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    background-color: #2f2f45; /* Cardurile sunt puțin mai închise */
+    transition: border-color 0.3s, transform 0.2s;
 }
 
 .card:hover {
     border-color: var(--primary-color);
+    transform: translateY(-2px);
 }
 
 .card h4 {
+    font-family: 'Montserrat', sans-serif;
     color: var(--text-color);
     margin-top: 0;
-    border-bottom: 1px dashed #444;
-    padding-bottom: 10px;
+    border-bottom: 1px dashed #555;
+    padding-bottom: 12px;
     font-weight: 600;
+    font-size: 1.3em;
 }
 
 .card ul {
     list-style: none;
     padding: 0;
+    margin-top: 20px;
 }
 
 .card ul li {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     color: var(--secondary-color);
+    font-size: 1.05em;
 }
 
 .card ul li strong {
@@ -168,40 +187,45 @@ button[type="submit"]:hover {
 
 /* Cod/Prompt Sugerat */
 .prompt-code {
-    background-color: #0a0a0a; /* Fundal foarte negru pentru cod */
-    border: 1px solid #444;
-    color: #ffd700; /* Text auriu subtil */
-    padding: 15px;
-    border-radius: 6px;
+    background-color: #0a0a1a; /* Fundal foarte negru pentru cod */
+    border: 1px solid #4a4a60;
+    color: var(--highlight-color); /* Text galben vibrant */
+    padding: 18px;
+    border-radius: 8px;
     font-family: 'Courier New', monospace;
     overflow-x: auto;
     width: 100%;
     box-sizing: border-box;
-    min-height: 100px;
+    min-height: 120px;
+    font-size: 0.95em;
 }
 
 .copy-btn {
     background-color: var(--secondary-color); 
     color: white;
-    margin-top: 15px;
-    padding: 10px 20px;
-    font-weight: 400;
+    margin-top: 20px;
+    padding: 12px 25px;
+    font-weight: 600;
+    border-radius: 8px;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
 }
 
 .copy-btn:hover {
-    background-color: #5a6268;
+    background-color: #546a78;
 }
 
 .error {
-    color: #dc3545; /* Roșu de eroare */
+    color: #ef5350; /* Roșu de eroare mai vibrant */
 }
 
 /* Footer */
 footer {
     text-align: center;
-    padding: 25px;
-    margin-top: 50px;
+    padding: 30px;
+    margin-top: 60px;
     color: var(--secondary-color);
     background-color: var(--card-background);
     border-top: 1px solid var(--border-color);
+    font-weight: 300;
 }
